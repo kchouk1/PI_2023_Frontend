@@ -1,8 +1,8 @@
 export class User {
     id?: number;
-    username: string;
-    password: string;
-    email: string;
+    username!: string;
+    password!: string;
+    email!: string;
     firstName!: string;
     lastName!: string;
     phoneNumber!: string;
@@ -12,21 +12,20 @@ export class User {
     verified!: boolean;
     roles!: Role[];
     formations!: Formation[];
-  
-    constructor(username: string, email: string, password: string) {
-      this.username = username;
-      this.email = email;
-      this.password = password;
-    }
-  }
-  
-  export interface Role {
+
+    // constructor(username: string, email: string, password: string) {
+    //   this.username = username;
+    //   this.email = email;
+    //   this.password = password;
+    // }
+}
+
+export interface Role {
     id: number;
     name: string;
-  }
-  
-  export interface Formation {
+}
+
+export interface Formation {
     id: number;
     name: string;
-  }
-  
+}

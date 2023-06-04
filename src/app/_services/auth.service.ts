@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-const USER_KEY = 'auth-user';
 
 @Injectable({
     providedIn: 'root',
@@ -13,10 +12,6 @@ export class AuthService {
     token!: any;
     currentUser = {};
     endpoint: string = 'http://localhost:8081/GestionDesAbsences/auth/';
-    headers = new HttpHeaders().set(
-        'Authorization',
-        'Bearer ' + this.getToken()
-    );
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -34,7 +29,7 @@ export class AuthService {
         this.router.navigateByUrl('/login');
     }
 
-    private getToken(): string {
+    getToken(): string {
         if (!this.token) {
             this.token = localStorage.getItem('token');
         }

@@ -18,9 +18,10 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { LoginModule } from './components/login/login.module';
 import { RegisterModule } from './components/register/register.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { UtilisateursModule } from './components/contenu/utilisateurs/utilisateurs.module';
+import { JwtInterceptor } from './_helpers/interceptor';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent, DashboardComponent],
@@ -42,7 +43,10 @@ import { UtilisateursModule } from './components/contenu/utilisateurs/utilisateu
         UtilisateursModule,
         ChartModule,
     ],
-    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+    providers: [
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
