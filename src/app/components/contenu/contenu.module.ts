@@ -20,9 +20,12 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { ChartModule } from 'primeng/chart';
+import { PresenceComponent } from './presence/presence.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
-    declarations: [ContenuComponent, UtilisateursComponent],
+    declarations: [ContenuComponent, UtilisateursComponent, PresenceComponent],
     imports: [
         CommonModule,
         ContenuRoutingModule,
@@ -44,6 +47,8 @@ import { ChartModule } from 'primeng/chart';
         ReactiveFormsModule,
         ConfirmDialogModule,
         ChartModule,
+        FullCalendarModule,
+        CalendarModule,
     ],
 })
 export class ContenuModule {}

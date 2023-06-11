@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="New"
+                label="Ajouter un employé"
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 (click)="openNew()"
@@ -14,7 +14,7 @@
             <button
                 pButton
                 pRipple
-                label="Delete"
+                label="Supprimer la sélection"
                 icon="pi pi-trash"
                 class="p-button-danger"
                 (click)="deleteSelectedUsers()"
@@ -22,7 +22,7 @@
             ></button>
         </ng-template>
 
-        <ng-template pTemplate="right">
+        <!-- <ng-template pTemplate="right">
             <button
                 pButton
                 pRipple
@@ -30,7 +30,7 @@
                 icon="pi pi-upload"
                 class="p-button-help"
             ></button>
-        </ng-template>
+        </ng-template> -->
     </p-toolbar>
 
     <p-table
@@ -48,14 +48,14 @@
     >
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Manage Users</h5>
+                <h5 class="m-0">Gestion des employés</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input
                         pInputText
                         type="text"
                         (input)="dt.filterGlobal($event.target, 'contains')"
-                        placeholder="Search..."
+                        placeholder="Rechercher..."
                     />
                 </span>
             </div>
@@ -66,16 +66,16 @@
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th pSortableColumn="username">
-                    Username <p-sortIcon field="username"></p-sortIcon>
+                    Nom d'utilisateur <p-sortIcon field="username"></p-sortIcon>
                 </th>
                 <th pSortableColumn="email">
                     Email <p-sortIcon field="email"></p-sortIcon>
                 </th>
                 <th pSortableColumn="firstname">
-                    Firstname <p-sortIcon field="firstname"></p-sortIcon>
+                    Prénom <p-sortIcon field="firstname"></p-sortIcon>
                 </th>
                 <th pSortableColumn="lastname">
-                    Lastname <p-sortIcon field="lastname"></p-sortIcon>
+                    Nom <p-sortIcon field="lastname"></p-sortIcon>
                 </th>
                 <th></th>
             </tr>
@@ -109,7 +109,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{ users ? users.length : 0 }} users.
+                En total il y a {{ users ? users.length : 0 }} employé(s).
             </div>
         </ng-template>
     </p-table>
@@ -124,7 +124,7 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="name">Name</label>
+            <label for="name">Nom d'utilisateur</label>
             <input
                 type="text"
                 pInputText
@@ -134,8 +134,47 @@
                 autofocus
             />
             <small class="p-error" *ngIf="!user.username"
-                >Name is required.</small
+                >Username is required.</small
             >
+        </div>
+
+        <div class="field">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                pInputText
+                id="email"
+                [(ngModel)]="user.email"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!user.email"
+                >Email is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="firstName">Prénom</label>
+            <input
+                type="text"
+                pInputText
+                id="firstName"
+                [(ngModel)]="user.firstName"
+                required
+                autofocus
+            />
+        </div>
+
+        <div class="field">
+            <label for="lastName">Nom</label>
+            <input
+                type="text"
+                pInputText
+                id="lastName"
+                [(ngModel)]="user.lastName"
+                required
+                autofocus
+            />
         </div>
 
         <div class="field">

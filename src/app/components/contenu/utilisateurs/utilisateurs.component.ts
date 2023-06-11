@@ -95,9 +95,11 @@ export class UtilisateursComponent implements OnInit {
 
     saveUser() {
         this.loading = true;
-
         if (this.user.id) {
             if (this.user.id) {
+                this.userService.updateUser(this.user).subscribe((r) => {
+                    console.log(r);
+                });
                 this.users[this.findIndexById(this.user.id)] = this.user;
                 this.messageService.add({
                     severity: 'success',
@@ -106,6 +108,7 @@ export class UtilisateursComponent implements OnInit {
                     life: 3000,
                 });
             } else {
+                this.userService.addUser(this.user);
                 this.users.push(this.user);
                 this.messageService.add({
                     severity: 'success',

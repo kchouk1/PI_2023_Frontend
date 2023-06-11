@@ -1,0 +1,100 @@
+<p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+        <p-dropdown
+            [options]="employees"
+            [(ngModel)]="selectedEmployee"
+            optionLabel="username"
+            placeholder="Select an employee"
+        ></p-dropdown>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+        <button
+            pButton
+            pRipple
+            label="Weekend"
+            icon="pi pi-eye"
+            class="p-button mr-2"
+            (click)="toggleWeekends()"
+        ></button>
+        <i
+            class="p-toolbar-separator pi pi-bars mr-2"
+            style="vertical-align: middle"
+        ></i>
+        <button
+            pButton
+            pRipple
+            label="Add week"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="openNew()"
+        ></button>
+    </ng-template>
+</p-toolbar>
+
+<full-calendar [options]="calendarOptions" [events]="events"></full-calendar>
+
+<p-dialog
+    [(visible)]="dialog"
+    [style]="{ width: '450px' }"
+    header="New entry"
+    [modal]="true"
+    styleClass="p-fluid"
+>
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="startDate">Start date</label>
+            <p-calendar
+                [(ngModel)]="presence.startDate"
+                [showIcon]="true"
+                [firstDayOfWeek]="1"
+                [disabledDays]="[0, 6]"
+                (onSelect)="updateMinDate($event)"
+                appendTo="body"
+            ></p-calendar>
+        </div>
+
+        <div class="field">
+            <label for="endDate">End date</label>
+            <p-calendar
+                [(ngModel)]="presence.endDate"
+                [showIcon]="true"
+                [firstDayOfWeek]="1"
+                [disabledDays]="[0, 6]"
+                [minDate]="minDate"
+                appendTo="body"
+            ></p-calendar>
+        </div>
+
+        <div class="field">
+            <label for="description">Description</label>
+            <input
+                type="text"
+                pInputText
+                id="description"
+                [(ngModel)]="presence.description"
+                required
+                autofocus
+            />
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button
+            pButton
+            pRipple
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-text p-button-danger"
+            (click)="hideDialog()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="saveEntry()"
+        ></button>
+    </ng-template>
+</p-dialog>
