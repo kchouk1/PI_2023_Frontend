@@ -76,13 +76,13 @@ export class UtilisateursComponent implements OnInit {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.users = this.users.filter((val) => val.id !== user.id);
-                this.user = new User();
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'User Deleted',
-                    life: 3000,
+                this.userService.removeUser(2).subscribe({
+                    next: (res) => {
+                        this.users = this.users.filter(
+                            (val) => val.id !== user.id
+                        );
+                        console.log(res);
+                    },
                 });
             },
         });

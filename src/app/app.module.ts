@@ -24,6 +24,7 @@ import { UtilisateursModule } from './components/contenu/utilisateurs/utilisateu
 import { JwtInterceptor } from './_helpers/interceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
+
 @NgModule({
     declarations: [AppComponent, NotfoundComponent, DashboardComponent],
     imports: [

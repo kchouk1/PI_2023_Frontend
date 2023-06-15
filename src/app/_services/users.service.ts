@@ -24,7 +24,7 @@ export class UserService {
     }
 
     removeUser(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}${id}`);
+        return this.http.delete<void>(`${this.apiUrl}removeuser/${id}`);
     }
 
     blockUser(userId: number): Observable<User> {

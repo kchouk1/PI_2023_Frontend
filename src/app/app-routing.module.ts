@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisateurs.component';
+import { CongeComponent } from './components/contenu/conge/conge.component';
 
 @NgModule({
     imports: [
@@ -22,11 +23,6 @@ import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisa
                             component: DashboardComponent,
                             canActivate: [AuthGuard],
                         },
-                        {
-                            path: 'contenu/utilisateurs',
-                            component: UtilisateursComponent,
-                        },
-
                         { path: '', pathMatch: 'full', redirectTo: 'login' },
                         { path: 'register', component: RegisterComponent },
                         { path: 'login', component: LoginComponent },

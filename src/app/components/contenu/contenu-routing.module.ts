@@ -4,6 +4,7 @@ import { NotfoundComponent } from '../notfound/notfound.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { PresenceComponent } from './presence/presence.component';
+import { CongeComponent } from './conge/conge.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -15,6 +16,11 @@ const routes: Routes = [
     {
         path: 'presence',
         component: PresenceComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'conge',
+        component: CongeComponent,
         canActivate: [AuthGuard],
     },
 ];

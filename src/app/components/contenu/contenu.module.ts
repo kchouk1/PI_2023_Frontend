@@ -23,9 +23,15 @@ import { ChartModule } from 'primeng/chart';
 import { PresenceComponent } from './presence/presence.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
+import { CongeComponent } from './conge/conge.component';
 
 @NgModule({
-    declarations: [ContenuComponent, UtilisateursComponent, PresenceComponent],
+    declarations: [
+        ContenuComponent,
+        UtilisateursComponent,
+        PresenceComponent,
+        CongeComponent,
+    ],
     imports: [
         CommonModule,
         ContenuRoutingModule,
