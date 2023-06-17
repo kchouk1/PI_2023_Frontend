@@ -20,9 +20,11 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { ChartModule } from 'primeng/chart';
+import { FormationComponent } from './formation/formation.component';
+
 
 @NgModule({
-    declarations: [ContenuComponent, UtilisateursComponent],
+    declarations: [ContenuComponent, UtilisateursComponent,FormationComponent],
     imports: [
         CommonModule,
         ContenuRoutingModule,

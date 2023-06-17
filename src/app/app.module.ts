@@ -22,6 +22,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { UtilisateursModule } from './components/contenu/utilisateurs/utilisateurs.module';
 import { JwtInterceptor } from './_helpers/interceptor';
+import { FormationComponent } from './components/contenu/formation/formation.component';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent, DashboardComponent],

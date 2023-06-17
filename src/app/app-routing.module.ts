@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisateurs.component';
+import { FormationComponent } from './components/contenu/formation/formation.component';
 
 @NgModule({
     imports: [
@@ -26,8 +27,12 @@ import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisa
                             path: 'contenu/utilisateurs',
                             component: UtilisateursComponent,
                         },
+                        {
+                            path:'contenu/formation',
+                            component:FormationComponent
+                        },
 
-                        { path: '', pathMatch: 'full', redirectTo: 'login' },
+                        { path: '', pathMatch: 'full', redirectTo: 'contenu/formation' },
                         { path: 'register', component: RegisterComponent },
                         { path: 'login', component: LoginComponent },
                         {
