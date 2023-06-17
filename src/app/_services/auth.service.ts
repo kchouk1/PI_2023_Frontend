@@ -46,4 +46,16 @@ export class AuthService {
         }
         return this.isLoggedIn$;
     }
+
+    public getRole() {
+        return localStorage.getItem('role');
+    }
+
+    public isAdmin() {
+        const userRole = this.getRole();
+        if (userRole === 'ROLE_ADMIN') {
+            return true;
+        }
+        return false;
+    }
 }

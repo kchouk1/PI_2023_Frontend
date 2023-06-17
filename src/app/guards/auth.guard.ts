@@ -7,23 +7,23 @@ import {
     UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from '../_services/auth.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-    constructor(private router: Router) {}
-    canActivate() {
-        if (!this.checkToken()) {
-            alert('you must login');
-
-            // not allowed, redirect to login
-            this.router.navigate(['login']);
-            return false;
-        } else {
-            // allowed
-            return true;
-        }
+    constructor(private authService: AuthService, private router: Router) {}
+    canActivate(
+        next: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ):
+        | Observable<boolean | UrlTree>
+        | Promise<boolean | UrlTree>
+        | boolean
+        | UrlTree {
+        let url: string = state.url;
+        return this.checkUserLogin(next, url);
     }
 
     public checkToken() {
@@ -35,6 +35,23 @@ export class AuthGuard implements CanActivate {
     //     localStorage.setItem('token', authResult.token);
     //     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
     // }
+
+    checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
+        if (this.authService.isAuthenticated()) {
+            const userRole = this.authService.getRole();
+            if (
+                route.data['role'] &&
+                route.data['role'].indexOf(userRole) === -1
+            ) {
+                this.router.navigate(['/home']);
+                return false;
+            }
+            return true;
+        }
+
+        this.router.navigate(['/home']);
+        return false;
+    }
 
     logout() {
         localStorage.removeItem('token');

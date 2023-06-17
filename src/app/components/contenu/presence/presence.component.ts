@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Presence } from 'src/app/_models/presence';
 import { User } from 'src/app/_models/user';
+import { AuthService } from 'src/app/_services/auth.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 import { UserService } from 'src/app/_services/users.service';
 
@@ -45,23 +46,20 @@ export class PresenceComponent implements OnInit {
     editing: boolean = false;
     dialog: boolean = false;
     minDate: Date = new Date();
+    rangeDates: Date[] = [];
+    isAdmin: boolean = false;
 
     constructor(
         private presenceService: PresenceService,
         private userService: UserService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private authService: AuthService
     ) {}
 
     ngOnInit(): void {
+        this.checkRole();
         this.userService.getAllusers().subscribe((r) => {
             this.employees = r;
-        });
-        this.presenceService.getAllPresence().subscribe((r) => {
-            for (let i = 0; i < r.length; i++) {
-                const presenceElement = r[i];
-                this.events.push(this.mapPresenceToEvent(presenceElement));
-            }
-            this.events = [...this.events];
         });
     }
 
@@ -70,13 +68,17 @@ export class PresenceComponent implements OnInit {
     }
 
     handleEventClick(arg: any) {
-        this.presence = new Presence();
-        this.presence.description = arg.event.title;
-        this.presence.startDate = arg.event.start;
-        this.presence.endDate = arg.event.end;
-        this.presence.id = arg.event.id;
-        this.editing = true;
-        this.dialog = true;
+        if (this.isAdmin) {
+            this.presence = new Presence();
+            this.presence.description = arg.event.title;
+            this.presence.startDate = arg.event.start;
+            this.presence.endDate = arg.event.end;
+            this.presence.id = arg.event.id;
+            this.rangeDates[0] = this.presence.startDate;
+            this.rangeDates[1] = this.presence.endDate;
+            this.editing = true;
+            this.dialog = true;
+        }
     }
 
     handleEventMouseEnter(arg: any) {
@@ -111,11 +113,11 @@ export class PresenceComponent implements OnInit {
 
     saveEntry() {
         this.presence.startDate = this.datePipe.transform(
-            this.presence.startDate,
+            this.rangeDates[0],
             'yyyy-MM-dd'
         );
         this.presence.endDate = this.datePipe.transform(
-            this.presence.endDate,
+            this.rangeDates[1],
             'yyyy-MM-dd'
         );
         if (this.presence.id) {
@@ -132,7 +134,7 @@ export class PresenceComponent implements OnInit {
             );
         } else {
             this.presenceService.addPresence(this.presence).subscribe(
-                (r) => {
+                (_r) => {
                     this.events.push(this.mapPresenceToEvent(this.presence));
                     this.events = [...this.events];
                     this.dialog = false;
@@ -142,6 +144,60 @@ export class PresenceComponent implements OnInit {
                 }
             );
         }
+    }
+
+    checkRole() {
+        this.isAdmin = this.authService.isAdmin();
+        if (!this.isAdmin) {
+            this.userService.getCurrentUser().subscribe({
+                next: (r) => {
+                    this.selectedEmployee = r;
+                    this.getUserCalendar(this.selectedEmployee.id!);
+                },
+            });
+        }
+    }
+
+    getUserCalendar(id: number) {
+        this.events = [];
+        this.presenceService.getUserPresence(id).subscribe((r) => {
+            this.presences = r;
+            for (let i = 0; i < r.length; i++) {
+                const presenceElement = r[i];
+                this.events.push(this.mapPresenceToEvent(presenceElement));
+            }
+            this.events = [...this.events];
+        });
+    }
+
+    dateRangeControl() {
+        if (!this.rangeDates.some((el) => el == null)) {
+            const dates: Date[] = this.getDatesFromRange(
+                this.rangeDates[0],
+                this.rangeDates[1]
+            );
+            let chosenDate: Date = this.rangeDates[1];
+            for (let i = 0; i < dates.length; i++) {
+                const date = dates[i];
+                if (date.getDay() == 6) {
+                    chosenDate = dates[i - 1];
+                    break;
+                }
+            }
+            this.rangeDates[1] = chosenDate!;
+        }
+    }
+
+    getDatesFromRange(start: Date, end: Date) {
+        const cFrom = new Date(start);
+        const cTo = new Date(end);
+        let daysArr = [new Date(cFrom)];
+        let tempDate = cFrom;
+        while (tempDate < cTo) {
+            tempDate.setUTCDate(tempDate.getUTCDate() + 1);
+            daysArr.push(new Date(tempDate));
+        }
+        return daysArr;
     }
 
     updateMinDate(date: Date) {

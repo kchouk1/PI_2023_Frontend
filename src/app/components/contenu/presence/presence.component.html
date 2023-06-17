@@ -1,10 +1,11 @@
-<p-toolbar styleClass="mb-4">
+<p-toolbar styleClass="mb-4" *ngIf="isAdmin">
     <ng-template pTemplate="left">
         <p-dropdown
             [options]="employees"
             [(ngModel)]="selectedEmployee"
             optionLabel="username"
             placeholder="Select an employee"
+            (onChange)="getUserCalendar($event.value.id)"
         ></p-dropdown>
     </ng-template>
 
@@ -43,25 +44,15 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="startDate">Start date</label>
+            <label for="startDate">Date range</label>
             <p-calendar
-                [(ngModel)]="presence.startDate"
+                [(ngModel)]="rangeDates"
                 [showIcon]="true"
                 [firstDayOfWeek]="1"
                 [disabledDays]="[0, 6]"
-                (onSelect)="updateMinDate($event)"
-                appendTo="body"
-            ></p-calendar>
-        </div>
-
-        <div class="field">
-            <label for="endDate">End date</label>
-            <p-calendar
-                [(ngModel)]="presence.endDate"
-                [showIcon]="true"
-                [firstDayOfWeek]="1"
-                [disabledDays]="[0, 6]"
-                [minDate]="minDate"
+                (onSelect)="dateRangeControl()"
+                selectionMode="range"
+                [readonlyInput]="true"
                 appendTo="body"
             ></p-calendar>
         </div>

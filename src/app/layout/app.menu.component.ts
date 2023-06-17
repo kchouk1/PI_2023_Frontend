@@ -38,7 +38,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Conge',
-                        icon: 'pi pi-apple',
+                        icon: 'pi pi-calendar-times',
                         routerLink: ['/contenu/conge'],
                     },
                 ],

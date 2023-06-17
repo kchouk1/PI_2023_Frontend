@@ -12,7 +12,7 @@ export class UserService {
     constructor(private http: HttpClient) {}
 
     addUser(user: User): Observable<User> {
-        return this.http.post<User>(`${this.apiUrl}`, user);
+        return this.http.post<User>(`${this.apiUrl}ajouterUser`, user);
     }
 
     updateUser(user: User): Observable<User> {
@@ -21,6 +21,10 @@ export class UserService {
 
     getAllusers(): Observable<any> {
         return this.http.get(this.apiUrl);
+    }
+
+    getCurrentUser(): Observable<any> {
+        return this.http.get(`${this.apiUrl}current`);
     }
 
     removeUser(id: number): Observable<void> {

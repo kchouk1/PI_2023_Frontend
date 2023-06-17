@@ -26,6 +26,10 @@ export class PresenceService {
         return this.http.get(this.apiUrl);
     }
 
+    getUserPresence(id: number): Observable<any> {
+        return this.http.get(`${this.apiUrl}${id}`);
+    }
+
     removePresence(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}${id}`);
     }

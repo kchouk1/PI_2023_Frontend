@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { User } from 'src/app/_models/user';
+import { AuthService } from 'src/app/_services/auth.service';
 import { UserService } from 'src/app/_services/users.service';
 
 @Component({
@@ -15,14 +17,18 @@ export class UtilisateursComponent implements OnInit {
     userDialog: boolean = false;
     user: User = new User();
     selectedUsers: User[] = [];
+    isAdmin: boolean = false;
+    @ViewChild('dt') dt: Table | undefined;
 
     constructor(
         private userService: UserService,
+        private authService: AuthService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
     ) {}
 
     ngOnInit(): void {
+        this.isAdmin = this.authService.isAdmin();
         this.getAll();
     }
 
@@ -51,6 +57,16 @@ export class UtilisateursComponent implements OnInit {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
+                for (let i = 0; i < this.selectedUsers.length; i++) {
+                    const user = this.selectedUsers[i];
+                    this.userService.removeUser(user.id!).subscribe({
+                        next: (res) => {
+                            this.users = this.users.filter(
+                                (val) => val.id !== user.id
+                            );
+                        },
+                    });
+                }
                 this.users = this.users.filter(
                     (val) => !this.selectedUsers.includes(val)
                 );
@@ -76,7 +92,7 @@ export class UtilisateursComponent implements OnInit {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.userService.removeUser(2).subscribe({
+                this.userService.removeUser(user.id!).subscribe({
                     next: (res) => {
                         this.users = this.users.filter(
                             (val) => val.id !== user.id
@@ -96,32 +112,38 @@ export class UtilisateursComponent implements OnInit {
     saveUser() {
         this.loading = true;
         if (this.user.id) {
-            if (this.user.id) {
-                this.userService.updateUser(this.user).subscribe((r) => {
-                    console.log(r);
-                });
-                this.users[this.findIndexById(this.user.id)] = this.user;
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Updated',
-                    life: 3000,
-                });
-            } else {
-                this.userService.addUser(this.user);
-                this.users.push(this.user);
+            this.userService.updateUser(this.user).subscribe((r) => {
+                console.log(r);
+            });
+            this.users[this.findIndexById(this.user.id)] = this.user;
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Product Updated',
+                life: 3000,
+            });
+        } else {
+            this.userService.addUser(this.user).subscribe((r) => {
+                this.users.push(r);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
                     detail: 'Product Created',
                     life: 3000,
                 });
-            }
-
-            this.users = [...this.users];
-            this.userDialog = false;
-            this.user = new User();
+            });
         }
+
+        this.users = [...this.users];
+        this.userDialog = false;
+        this.user = new User();
+    }
+
+    applyFilterGlobal($event: any, stringVal: any) {
+        this.dt!.filterGlobal(
+            ($event.target as HTMLInputElement).value,
+            stringVal
+        );
     }
 
     findIndexById(id: number): number {
