@@ -21,10 +21,12 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { ChartModule } from 'primeng/chart';
 import { FormationComponent } from './formation/formation.component';
+import { JitsiComponent } from './formation/jitsi/jitsi.component';
+import { MeetComponent } from './formation/jitsi/meet/meet.component';
 
 
 @NgModule({
-    declarations: [ContenuComponent, UtilisateursComponent,FormationComponent],
+    declarations: [ContenuComponent, UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent],
     imports: [
         CommonModule,
         ContenuRoutingModule,

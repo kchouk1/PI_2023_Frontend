@@ -8,6 +8,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisateurs.component';
 import { FormationComponent } from './components/contenu/formation/formation.component';
+import { JitsiComponent } from './components/contenu/formation/jitsi/jitsi.component';
+import { MeetComponent } from './components/contenu/formation/jitsi/meet/meet.component';
 
 @NgModule({
     imports: [
@@ -30,6 +32,14 @@ import { FormationComponent } from './components/contenu/formation/formation.com
                         {
                             path:'contenu/formation',
                             component:FormationComponent
+                        },
+                        {
+                            path:'contenu/formation/meet',
+                            component:JitsiComponent
+                        },
+                        {
+                            path:'contenu/formation/jitsi/meet',
+                            component:MeetComponent
                         },
 
                         { path: '', pathMatch: 'full', redirectTo: 'contenu/formation' },

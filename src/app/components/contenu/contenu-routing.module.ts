@@ -4,12 +4,17 @@ import { NotfoundComponent } from '../notfound/notfound.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { FormationComponent } from './formation/formation.component';
+import { JitsiComponent } from './formation/jitsi/jitsi.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
     {
         path : 'formation',
         component : FormationComponent
+    },
+    {
+        path:'meet',
+        component : JitsiComponent
     },
     {
         path: 'utilisateurs',
