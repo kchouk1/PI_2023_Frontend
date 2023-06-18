@@ -23,6 +23,9 @@ import { ChartModule } from 'primeng/chart';
 import { PresenceComponent } from './presence/presence.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { TeamComponent } from './team/team.component';
 import { CongeComponent } from './conge/conge.component';
 
 @NgModule({
@@ -31,8 +34,11 @@ import { CongeComponent } from './conge/conge.component';
         UtilisateursComponent,
         PresenceComponent,
         CongeComponent,
+        TeamComponent,
     ],
     imports: [
+        ConfirmPopupModule,
+        InputNumberModule,
         CommonModule,
         ContenuRoutingModule,
         CommonModule,

@@ -16,7 +16,9 @@ export class AuthService {
     constructor(private http: HttpClient, private router: Router) {}
 
     signin(data: any) {
-        return this.http.post(this.endpoint + 'signin', data);
+        {
+            return this.http.post(this.endpoint + 'signin', data);
+        }
     }
 
     register(data: any) {
@@ -27,6 +29,7 @@ export class AuthService {
         window.localStorage.clear();
         this.updateLoggedInState(false);
         this.router.navigateByUrl('/login');
+        window.location.reload();
     }
 
     getToken(): string {

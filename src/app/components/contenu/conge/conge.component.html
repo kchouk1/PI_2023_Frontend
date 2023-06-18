@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Ajouter un Congé"
+                label="Ajouter un congé"
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 (click)="openNew()"
@@ -19,6 +19,7 @@
                 class="p-button-danger"
                 (click)="deleteSelectedConge()"
                 [disabled]="!selectedConge || !selectedConge.length"
+                *ngIf="isAdmin"
             ></button>
         </ng-template>
     </p-toolbar>
@@ -28,7 +29,14 @@
         [value]="conges"
         [rows]="10"
         [paginator]="true"
-        [globalFilterFields]="['duree', 'soldeConge', 'dateDebut', 'dateFin']"
+        [globalFilterFields]="[
+            'duree',
+            'soldeConge',
+            'dateDebut',
+            'dateFin',
+            'user.firstName',
+            'user.lastName'
+        ]"
         responsiveLayout="scroll"
         [(selection)]="selectedConge"
         [rowHover]="true"
@@ -38,13 +46,13 @@
     >
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Gestion des Congé</h5>
+                <h5 class="m-0">Gestion des congés</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input
                         pInputText
                         type="text"
-                        (input)="dt.filterGlobal($event.target, 'contains')"
+                        (input)="applyFilterGlobal($event, 'contains')"
                         placeholder="Rechercher..."
                     />
                 </span>
@@ -52,42 +60,63 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 3rem">
+                <th style="width: 3rem" *ngIf="isAdmin">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-
+                <th pSortableColumn="username" *ngIf="isAdmin">
+                    Employé <p-sortIcon field="username"></p-sortIcon>
+                </th>
                 <th pSortableColumn="duree">
-                    duree <p-sortIcon field="duree"></p-sortIcon>
+                    Durée <p-sortIcon field="duree"></p-sortIcon>
                 </th>
                 <th pSortableColumn="soldeConge">
-                    soldeConge <p-sortIcon field="soldeConge"></p-sortIcon>
+                    Solde <p-sortIcon field="soldeConge"></p-sortIcon>
                 </th>
                 <th pSortableColumn="dateDebut">
-                    dateDebut <p-sortIcon field="dateDebut"></p-sortIcon>
+                    Date de début <p-sortIcon field="dateDebut"></p-sortIcon>
                 </th>
                 <th pSortableColumn="dateFin">
-                    dateFin <p-sortIcon field="dateFin"></p-sortIcon>
+                    Date de fin <p-sortIcon field="dateFin"></p-sortIcon>
                 </th>
-                <th pSortableColumn="StatusOfDemand">
-                    StatusOfDemand
-                    <p-sortIcon field="StatusOfDemand"></p-sortIcon>
+                <th pSortableColumn="status">
+                    Status
+                    <p-sortIcon field="status"></p-sortIcon>
                 </th>
-                <th></th>
+                <th *ngIf="isAdmin"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-conge>
             <tr>
-                <td>
+                <td *ngIf="isAdmin">
                     <p-tableCheckbox [value]="conge"></p-tableCheckbox>
                 </td>
-
+                <td *ngIf="isAdmin">
+                    {{ conge.user?.firstName }} {{ conge.user?.lastName }}
+                </td>
                 <td>{{ conge.duree }}</td>
                 <td>{{ conge.soldeConge }}</td>
                 <td>{{ conge.dateDebut }}</td>
                 <td>{{ conge.dateFin }}</td>
-                <td>{{ conge.status }}</td>
-
-                <td>
+                <td *ngIf="conge.status === NOT_YET_TREATED">
+                    <i
+                        class="pi pi-clock"
+                        [ngStyle]="{ color: 'var(--yellow-600)' }"
+                    ></i>
+                </td>
+                <td *ngIf="conge.status === ACCEPTED">
+                    <i class="pi pi-thumbs-up text-success"></i>
+                </td>
+                <td *ngIf="conge.status === REJECTED">
+                    <i class="pi pi-thumbs-down text-danger"></i>
+                </td>
+                <td *ngIf="isAdmin">
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-eye"
+                        class="p-button-rounded p-button-secondary mr-2"
+                        (click)="confirmation($event, conge.id)"
+                    ></button>
                     <button
                         pButton
                         pRipple
@@ -107,7 +136,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                En total il y a {{ conges ? conges.length : 0 }} Congé(s).
+                En total il y a {{ conges ? conges.length : 0 }} congé(s).
             </div>
         </ng-template>
     </p-table>
@@ -116,28 +145,30 @@
 <p-dialog
     [(visible)]="congeDialog"
     [style]="{ width: '450px' }"
-    header="User Details"
+    header="Congé"
     [modal]="true"
     styleClass="p-fluid"
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="duree">Duree</label>
-            <input
-                type="number"
-                pInputText
-                id="duree"
+            <label for="duree">Durée</label>
+            <p-inputNumber
                 [(ngModel)]="conge.duree"
-                required
-                autofocus
-            />
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                decrementButtonClass="p-button-danger"
+                incrementButtonClass="p-button-success"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                [min]="1"
+            ></p-inputNumber>
             <small class="p-error" *ngIf="!conge.duree"
                 >Duree is required.</small
             >
         </div>
 
         <div class="field">
-            <label for="soldeConge">Solde de Congé</label>
+            <label for="soldeConge">Solde de congé</label>
             <input
                 type="text"
                 pInputText
@@ -147,37 +178,45 @@
                 autofocus
             />
             <small class="p-error" *ngIf="!conge.soldeConge"
-                >Solde de Congé is required.</small
+                >Solde de congé is required.</small
             >
         </div>
         <div class="field">
             <label for="dateDebut"> Date Début</label>
-            <input
-                type="date"
-                pInputText
-                id="dateDebut"
+            <p-calendar
                 [(ngModel)]="conge.dateDebut"
-                required
-                autofocus
-            />
+                [disabledDays]="[0, 6]"
+                [firstDayOfWeek]="1"
+                [showIcon]="true"
+                appendTo="body"
+            ></p-calendar>
             <small class="p-error" *ngIf="!conge.dateDebut"
                 >Date Début is required.</small
             >
         </div>
 
         <div class="field">
-            <label for="dateFin"> Date Fin</label>
-            <input
-                type="date"
-                pInputText
-                id="dateFin"
+            <label for="dateFin">Date Fin</label>
+            <p-calendar
                 [(ngModel)]="conge.dateFin"
-                required
-                autofocus
-            />
+                [disabledDays]="[0, 6]"
+                [firstDayOfWeek]="1"
+                [showIcon]="true"
+                appendTo="body"
+            ></p-calendar>
             <small class="p-error" *ngIf="!conge.dateFin"
                 >Date Fin is required.</small
             >
+        </div>
+
+        <div class="field" *ngIf="isAdmin">
+            <label for="dateFin">Employé</label>
+            <p-dropdown
+                [options]="users"
+                [(ngModel)]="conge.user"
+                optionLabel="username"
+                appendTo="body"
+            ></p-dropdown>
         </div>
     </ng-template>
 
@@ -202,3 +241,4 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-confirmPopup key="confirmation"></p-confirmPopup>

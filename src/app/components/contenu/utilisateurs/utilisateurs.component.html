@@ -1,6 +1,5 @@
 <p-toast></p-toast>
 
-<!-- <div class="card" *ngIf="isAdmin"> -->
 <div class="card">
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
@@ -39,7 +38,7 @@
         [value]="users"
         [rows]="10"
         [paginator]="true"
-        [globalFilterFields]="['username', 'email', 'firstName', 'lastName']"
+        [globalFilterFields]="['username', 'email', 'firstname', 'lastname']"
         responsiveLayout="scroll"
         [(selection)]="selectedUsers"
         [rowHover]="true"
@@ -55,7 +54,7 @@
                     <input
                         pInputText
                         type="text"
-                        (input)="applyFilterGlobal($event, 'contains')"
+                        (input)="dt.filterGlobal($event.target, 'contains')"
                         placeholder="Rechercher..."
                     />
                 </span>
@@ -72,11 +71,11 @@
                 <th pSortableColumn="email">
                     Email <p-sortIcon field="email"></p-sortIcon>
                 </th>
-                <th pSortableColumn="firstName">
-                    Prénom <p-sortIcon field="firstName"></p-sortIcon>
+                <th pSortableColumn="firstname">
+                    Prénom <p-sortIcon field="firstname"></p-sortIcon>
                 </th>
-                <th pSortableColumn="lastName">
-                    Nom <p-sortIcon field="lastName"></p-sortIcon>
+                <th pSortableColumn="lastname">
+                    Nom <p-sortIcon field="lastname"></p-sortIcon>
                 </th>
                 <th></th>
             </tr>
@@ -122,7 +121,6 @@
     header="User Details"
     [modal]="true"
     styleClass="p-fluid"
-    [maximizable]="true"
 >
     <ng-template pTemplate="content">
         <div class="field">

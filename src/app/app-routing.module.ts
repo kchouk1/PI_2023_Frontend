@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisateurs.component';
 import { CongeComponent } from './components/contenu/conge/conge.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
     imports: [
@@ -16,12 +17,19 @@ import { CongeComponent } from './components/contenu/conge/conge.component';
                 {
                     path: '',
                     component: AppLayoutComponent,
+                 
 
                     children: [
                         {
                             path: 'dashboard',
                             component: DashboardComponent,
                             canActivate: [AuthGuard],
+                        },
+                        {
+                            path: 'profile',
+                            component: ProfileComponent,
+                            canActivate: [AuthGuard],
+                           
                         },
                         { path: '', pathMatch: 'full', redirectTo: 'login' },
                         { path: 'register', component: RegisterComponent },
@@ -36,6 +44,7 @@ import { CongeComponent } from './components/contenu/conge/conge.component';
                         },
                     ],
                 },
+               
 
                 {
                     path: '**',

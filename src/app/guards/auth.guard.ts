@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
     }
 
     checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
-        if (this.authService.isAuthenticated()) {
+        if (this.authService.getToken()) {
             const userRole = this.authService.getRole();
             if (
                 route.data['role'] &&
@@ -43,12 +43,13 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        this.router.navigate(['/home']);
+        this.router.navigate(['/login']);
         return false;
     }
 
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('expires_at');
+        window.location.reload();
     }
 }

@@ -5,6 +5,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { PresenceComponent } from './presence/presence.component';
 import { CongeComponent } from './conge/conge.component';
+import { TeamComponent } from './team/team.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -22,6 +23,11 @@ const routes: Routes = [
     {
         path: 'conge',
         component: CongeComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'equipe',
+        component: TeamComponent,
         canActivate: [AuthGuard],
     },
 ];

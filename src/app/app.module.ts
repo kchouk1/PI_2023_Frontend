@@ -23,10 +23,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UtilisateursModule } from './components/contenu/utilisateurs/utilisateurs.module';
 import { JwtInterceptor } from './_helpers/interceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
-
+import { ProfileComponent } from './components/profile/profile.component';
+import { ButtonModule } from 'primeng/button';
+import { InplaceModule } from 'primeng/inplace';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
-    declarations: [AppComponent, NotfoundComponent, DashboardComponent],
+    declarations: [
+        AppComponent,
+        NotfoundComponent,
+        DashboardComponent,
+        ProfileComponent,
+    ],
     imports: [
         AppRoutingModule,
         AppLayoutModule,
@@ -45,6 +54,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         UtilisateursModule,
         ChartModule,
         FullCalendarModule,
+        ButtonModule,
+        InplaceModule,
+        InputTextModule,
+        PasswordModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
