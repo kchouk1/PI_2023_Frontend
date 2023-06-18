@@ -23,10 +23,14 @@ import { ChartModule } from 'primeng/chart';
 import { FormationComponent } from './formation/formation.component';
 import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
+import { SelectItem } from 'primeng/api';
+import { ProjetComponent } from './projet/projet.component';
+import { TaskComponent } from './task/task.component';
+
 
 
 @NgModule({
-    declarations: [ContenuComponent, UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent],
+    declarations: [ContenuComponent, UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent, ProjetComponent, TaskComponent],
     imports: [
         CommonModule,
         ContenuRoutingModule,
@@ -48,6 +52,8 @@ import { MeetComponent } from './formation/jitsi/meet/meet.component';
         ReactiveFormsModule,
         ConfirmDialogModule,
         ChartModule,
+        DropdownModule,
+      
     ],
 })
 export class ContenuModule {}

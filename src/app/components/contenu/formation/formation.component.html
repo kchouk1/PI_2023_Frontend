@@ -1,5 +1,3 @@
-<p-toast></p-toast>
-
 <div class="card">
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
@@ -29,6 +27,7 @@
                 label="Export"
                 icon="pi pi-upload"
                 class="p-button-help"
+
             ></button>
         </ng-template>
     </p-toolbar>
@@ -109,7 +108,7 @@
                         pRipple
                         icon="pi pi-search"
                         class="p-button-rounded p-button-success mr-2"
-                        (click)="deleteFormation(formation)"
+                        (click)="navigateToComponent(formation.id)"
                     ></button>
                 </td>
             </tr>
@@ -129,11 +128,25 @@
     [modal]="true"
     styleClass="p-fluid"
 >
-    <ng-template pTemplate="content">
+    <!-- <ng-template pTemplate="content">
         <div class="field">
             <label for="name">Name</label>
             <input
                 type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="formation.formationName"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!formation.formationName"
+                >Name is required.</small
+            >
+        </div>
+        <div class="field">
+            <label for="name">Status</label>
+            <input
+                type="checkbox"
                 pInputText
                 id="name"
                 [(ngModel)]="formation.formationName"
@@ -159,7 +172,116 @@
                 </ng-template>
             </p-dropdown>
         </div> -->
-    </ng-template>
+    <!-- </ng-template> -->
+    <!-- <ng-template pTemplate="content">
+        <div class="field">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            pInputText
+            id="name"
+            [(ngModel)]="formation.formationName"
+            required
+            autofocus
+          />
+          <small class="p-error" *ngIf="!formation.formationName">Name is required.</small>
+        </div>
+        <div class="field">
+          <label for="status">Status</label>
+          <p-checkbox [(ngModel)]="formation.formationStatus"></p-checkbox>
+        </div>
+        <div class="field">
+          <label for="dateStart">Start Date</label>
+          <p-calendar [(ngModel)]="formation.dateStart"></p-calendar>
+        </div>
+        <div class="field">
+          <label for="dateFinish">Finish Date</label>
+          <p-calendar [(ngModel)]="formation.dateFinish"></p-calendar>
+        </div>
+
+        <!-- ...remaining code... -->
+      <!-- </ng-template> -->
+      <ng-template pTemplate="content">
+        <div class="field">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            pInputText
+            id="name"
+            [(ngModel)]="formation.formationName"
+            required
+            autofocus
+          />
+          <small class="p-error" *ngIf="!formation.formationName">Name is required.</small>
+        </div>
+        <!-- <div class="field">
+          <label for="status">Status</label>
+          <p-checkbox [(ngModel)]="formation.formationStatus"></p-checkbox>
+        </div> -->
+        <!-- <div class="field">
+            <label for="status">Status</label>
+            <p-dropdown [(ngModel)]="formation.formationStatus">
+              <option value="Pending">Pending</option>
+              <option value="Active">Active</option>
+            </p-dropdown>
+          </div> -->
+          <!-- <div class="field">
+            <label for="status">Status</label>
+            <p-dropdown [(ngModel)]="formation.formationStatus" [showClear]="true">
+              <ng-template pTemplate="noResults">
+                <option value="Pending">Pending</option>
+                <option value="Active">Active</option>
+              </ng-template>
+            </p-dropdown>
+          </div> -->
+          <!-- <div class="field">
+            <label for="status">Status</label>
+            <p-dropdown [(ngModel)]="formation.formationStatus" [showClear]="true">
+              <option value="Pending">Pending</option>
+              <option value="Active">Active</option>
+            </p-dropdown>
+          </div> -->
+          <div class="field">
+            <label for="status">Status</label>
+            <input
+            type="text"
+            pInputText
+            id="status"
+            [(ngModel)]="formation.formationStatus"
+            required
+            autofocus
+          />
+          <small class="p-error" *ngIf="!formation.formationStatus">Status is required.</small>
+          </div>
+          
+          
+        <div class="field">
+          <label for="dateStart">Start Date</label>
+          <input
+            type="date"
+            pInputText
+            id="dateStart"
+            [(ngModel)]="formation.dateStart"
+            required
+          />
+          <small class="p-error" *ngIf="!formation.dateStart">Start Date is required.</small>
+        </div>
+        <div class="field">
+          <label for="dateFinish">Finish Date</label>
+          <input
+            type="date"
+            pInputText
+            id="dateFinish"
+            [(ngModel)]="formation.dateFinish"
+            required
+          />
+          <small class="p-error" *ngIf="!formation.dateFinish">Finish Date is required.</small>
+        </div>
+
+        <!-- ...remaining code... -->
+      </ng-template>
+
+
 
     <ng-template pTemplate="footer">
         <button

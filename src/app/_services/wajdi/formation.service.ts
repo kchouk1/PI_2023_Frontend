@@ -22,6 +22,9 @@ export class FormationService {
     getAllFormations(): Observable<any> {
         return this.http.get(this.apiUrl);
     }
+    getFormation(id:number): Observable<any>{
+        return this.http.get(`${this.apiUrl}/${id}`);
+    }
 
     removeFormation(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);

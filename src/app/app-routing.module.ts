@@ -34,7 +34,7 @@ import { MeetComponent } from './components/contenu/formation/jitsi/meet/meet.co
                             component:FormationComponent
                         },
                         {
-                            path:'contenu/formation/meet',
+                            path:'contenu/formation/meet/:formationName',
                             component:JitsiComponent
                         },
                         {

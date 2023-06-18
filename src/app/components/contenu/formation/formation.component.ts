@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Formation } from 'src/app/_models/formation';
 import { FormationService } from 'src/app/_services/wajdi/formation.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formation',
@@ -20,7 +21,8 @@ export class FormationComponent implements OnInit {
   constructor(
         private formationService: FormationService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -70,71 +72,7 @@ editFormation(formation: Formation) {
     this.formationDialog = true;
 }
 
-// deleteFormation(formation: Formation) {
-//     this.confirmationService.confirm({
-//         message: 'Are you sure you want to delete ' + formation.formationName + '?',
-//         header: 'Confirm',
-//         icon: 'pi pi-exclamation-triangle',
-//         accept: () => {
-//             this.formations = this.formations.filter((val) => val.id !== formation.id);
-//             this.formation = new Formation();
-//             this.messageService.add({
-//                 severity: 'success',
-//                 summary: 'Successful',
-//                 detail: 'Formation Deleted',
-//                 life: 3000,
-//             });
-//         },
-//     });
-// }
-// deleteFormation(formation: Formation) {
-//     this.confirmationService.confirm({
-//         message: 'Are you sure you want to delete ' + formation.formationName + '?',
-//         header: 'Confirm',
-//         icon: 'pi pi-exclamation-triangle',
-//         accept: () => {
-//             if (formation.id) {
-//                 this.formationService.removeFormation(Number(formation.id)).subscribe(
-//                     () => {
-//                         this.messageService.add({
-//                             severity: 'success',
-//                             summary: 'Successful',
-//                             detail: 'Formation Deleted',
-//                             life: 3000,
-//                         });
-//                         this.getAll(); // Reload all formations from the backend
-//                     },
-//                     (error) => {
-//                         console.error(error);
-//                         // Handle error scenario, display error message, etc.
-//                     }
-//                 );
-//             }
-//         },
-//     });
-// }
-// deleteFormation(formation: Formation) {
-//     this.formationService.removeFormation(formation.id).subscribe(
-//       () => {
-//         this.formations = this.formations.filter((val) => val.id !== formation.id);
-//         this.messageService.add({
-//           severity: 'success',
-//           summary: 'Successful',
-//           detail: 'Formation Deleted',
-//           life: 3000,
-//         });
-//       },
-//       (error) => {
-//         console.error(error);
-//         this.messageService.add({
-//           severity: 'error',
-//           summary: 'Error',
-//           detail: 'Failed to delete formation',
-//           life: 3000,
-//         });
-//       }
-//     );
-//   }
+
 deleteFormation(formation: Formation) {
     if (formation.id) {
       this.formationService.removeFormation(formation.id).subscribe(
@@ -167,58 +105,7 @@ hideDialog() {
     this.loading = false;
 }
 
-// saveFormation() {
-//     this.loading = true;
 
-//     if (this.formation.id) {
-//         if (this.formation.id) {
-//             this.formations[this.findIndexById(this.formation.id)] = this.formation;
-//             this.messageService.add({
-//                 severity: 'success',
-//                 summary: 'Successful',
-//                 detail: 'Formation Updated',
-//                 life: 3000,
-//             });
-//         } else {
-//             this.formations.push(this.formation);
-//             this.messageService.add({
-//                 severity: 'success',
-//                 summary: 'Successful',
-//                 detail: 'Formation Created',
-//                 life: 3000,
-//             });
-//         }
-
-//         this.formations = [...this.formations];
-//         this.formationDialog = false;
-//         this.formation = new Formation();
-//     }
-// }
-// saveFormation() {
-//     this.loading = true;
-
-//     if (this.formation.id) {
-//         this.formations[this.findIndexById(this.formation.id)] = this.formation;
-//         this.messageService.add({
-//             severity: 'success',
-//             summary: 'Successful',
-//             detail: 'Formation Updated',
-//             life: 3000,
-//         });
-//     } else {
-//         this.formations.push(this.formation);
-//         this.messageService.add({
-//             severity: 'success',
-//             summary: 'Successful',
-//             detail: 'Formation Created',
-//             life: 3000,
-//         });
-//     }
-
-//     this.formations = [...this.formations];
-//     this.formationDialog = false;
-//     this.formation = new Formation();
-// }
 saveFormation() {
     this.loading = true;
 
@@ -275,4 +162,19 @@ findIndexById(id: number): number {
     }
     return index;
 }
+// navigateToComponent(formationId:number):void {
+//     this.formationService.getFormation(formationId).subscribe((formation: any) => {
+//         const formationName = formation.formationName;
+//         console.log(formationId)
+//         console.log(formationName)
+//         this.router.navigate(['/contenu/formation/meet'], { state: { formationName } });
+//       });
+//   }
+navigateToComponent(formationId: number): void {
+    this.formationService.getFormation(formationId).subscribe((formation: any) => {
+        const formationName = formation.formationName;
+        this.router.navigate(['/contenu/formation/meet', formationName]); // Pass formationName as route parameter
+    });
+}
+
 }

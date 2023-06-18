@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 declare var JitsiMeetExternalAPI: any;
 @Component({
   selector: 'app-meet',
@@ -17,12 +17,16 @@ export class MeetComponent implements OnInit,AfterViewInit {
     isAudioMuted = false;
     isVideoMuted = false;
   constructor(
-    private router :Router
+    private router :Router,
+    private activateRoute :ActivatedRoute
   ) { }
 
 
   ngOnInit(): void {
-    this.room = 'bwb-bfqi-vmh'; // set your room name
+    this.activateRoute.params.subscribe((params: { [x: string]: any; }) => {
+        this.room = params['formationName'];
+        console.log(this.room);
+    });
     this.user = {
         name: 'Wajdi Hassyaoui' // set your username
         }

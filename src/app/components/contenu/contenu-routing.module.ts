@@ -13,7 +13,7 @@ const routes: Routes = [
         component : FormationComponent
     },
     {
-        path:'meet',
+        path:'meet/:formationName',
         component : JitsiComponent
     },
     {
