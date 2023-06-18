@@ -59,8 +59,8 @@ export class TeamComponent implements OnInit {
 
     saveTeam() {
         this.loading = true;
+        this.team.users = this.selectedUsers;
         if (this.team.id) {
-            this.team.users = this.selectedUsers;
             this.teamService.updateTeam(this.team).subscribe({
                 next: (r) => {
                     this.teams[this.findIndexById(this.team.id)] = this.team;
@@ -81,14 +81,24 @@ export class TeamComponent implements OnInit {
                 },
             });
         } else {
-            this.teamService.addTeam(this.team).subscribe((r) => {
-                this.teams.push(r);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Equipe Created',
-                    life: 3000,
-                });
+            this.teamService.addTeam(this.team).subscribe({
+                next: (r) => {
+                    this.teams.push(r);
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'Equipe Created',
+                        life: 3000,
+                    });
+                },
+                error: (e) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erreur',
+                        detail: 'Erreur de création',
+                        life: 3000,
+                    });
+                },
             });
         }
 

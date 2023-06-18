@@ -117,7 +117,7 @@
             >
         </div>
 
-        <div class="field">
+        <div class="field" *ngIf="team.id">
             <label for="users">Employés</label>
             <p-multiSelect
                 [options]="users"
