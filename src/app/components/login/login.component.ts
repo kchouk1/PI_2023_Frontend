@@ -28,7 +28,9 @@ export class LoginComponent implements OnInit {
         this.s.signin(this.loginForm.value).subscribe(
             (response: any) => {
                 // set the token in the localStorage
+                console.log(response);
                 localStorage.setItem('token', response.accessToken);
+                localStorage.setItem('role', response.roles);
                 this.s.updateLoggedInState(true);
                 // redirect to dashboard
                 this.router.navigateByUrl('/dashboard');

@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Ajouter un employé"
+                label="Ajouter un Congé"
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 (click)="openNew()"
@@ -21,16 +21,6 @@
                 [disabled]="!selectedConge || !selectedConge.length"
             ></button>
         </ng-template>
-
-        <!-- <ng-template pTemplate="right">
-            <button
-                pButton
-                pRipple
-                label="Export"
-                icon="pi pi-upload"
-                class="p-button-help"
-            ></button>
-        </ng-template> -->
     </p-toolbar>
 
     <p-table
@@ -38,7 +28,7 @@
         [value]="conges"
         [rows]="10"
         [paginator]="true"
-        [globalFilterFields]="['username', 'email', 'firstname', 'lastname']"
+        [globalFilterFields]="['duree', 'soldeConge', 'dateDebut', 'dateFin']"
         responsiveLayout="scroll"
         [(selection)]="selectedConge"
         [rowHover]="true"
@@ -48,7 +38,7 @@
     >
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Gestion des employés</h5>
+                <h5 class="m-0">Gestion des Congé</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input
@@ -65,16 +55,23 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="id">
-                    id <p-sortIcon field="id"></p-sortIcon>
-                </th>
-                <th pSortableColumn="type">
-                    type <p-sortIcon field="type"></p-sortIcon>
-                </th>
-                <th pSortableColumn="description">
-                    description <p-sortIcon field="description"></p-sortIcon>
-                </th>
 
+                <th pSortableColumn="duree">
+                    duree <p-sortIcon field="duree"></p-sortIcon>
+                </th>
+                <th pSortableColumn="soldeConge">
+                    soldeConge <p-sortIcon field="soldeConge"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dateDebut">
+                    dateDebut <p-sortIcon field="dateDebut"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dateFin">
+                    dateFin <p-sortIcon field="dateFin"></p-sortIcon>
+                </th>
+                <th pSortableColumn="StatusOfDemand">
+                    StatusOfDemand
+                    <p-sortIcon field="StatusOfDemand"></p-sortIcon>
+                </th>
                 <th></th>
             </tr>
         </ng-template>
@@ -83,9 +80,12 @@
                 <td>
                     <p-tableCheckbox [value]="conge"></p-tableCheckbox>
                 </td>
-                <td>{{ conge.id }}</td>
-                <td>{{ conge.description }}</td>
-                <td>{{ conge.type }}</td>
+
+                <td>{{ conge.duree }}</td>
+                <td>{{ conge.soldeConge }}</td>
+                <td>{{ conge.dateDebut }}</td>
+                <td>{{ conge.dateFin }}</td>
+                <td>{{ conge.status }}</td>
 
                 <td>
                     <button
@@ -107,7 +107,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                En total il y a {{ conges ? conges.length : 0 }} employé(s).
+                En total il y a {{ conges ? conges.length : 0 }} Congé(s).
             </div>
         </ng-template>
     </p-table>
@@ -122,30 +122,61 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="name">Type de conge</label>
+            <label for="duree">Duree</label>
             <input
-                type="text"
+                type="number"
                 pInputText
-                id="type"
-                [(ngModel)]="conge.type"
+                id="duree"
+                [(ngModel)]="conge.duree"
                 required
                 autofocus
             />
-            <small class="p-error" *ngIf="!conge.type">Type is required.</small>
+            <small class="p-error" *ngIf="!conge.duree"
+                >Duree is required.</small
+            >
         </div>
 
         <div class="field">
-            <label for="description">Description</label>
+            <label for="soldeConge">Solde de Congé</label>
             <input
-                type="description"
+                type="text"
                 pInputText
-                id="description"
-                [(ngModel)]="conge.description"
+                id="soldeConge"
+                [(ngModel)]="conge.soldeConge"
                 required
                 autofocus
             />
-            <small class="p-error" *ngIf="!conge.description"
-                >description is required.</small
+            <small class="p-error" *ngIf="!conge.soldeConge"
+                >Solde de Congé is required.</small
+            >
+        </div>
+        <div class="field">
+            <label for="dateDebut"> Date Début</label>
+            <input
+                type="date"
+                pInputText
+                id="dateDebut"
+                [(ngModel)]="conge.dateDebut"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!conge.dateDebut"
+                >Date Début is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="dateFin"> Date Fin</label>
+            <input
+                type="date"
+                pInputText
+                id="dateFin"
+                [(ngModel)]="conge.dateFin"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!conge.dateFin"
+                >Date Fin is required.</small
             >
         </div>
     </ng-template>

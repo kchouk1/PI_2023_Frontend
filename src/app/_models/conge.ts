@@ -1,11 +1,14 @@
 export class Conge {
     id?: number;
-    type!: string;
-    description!: string;
+    duree!: number;
+    soldeConge!: number;
+    dateDebut!: Date;
+    dateFin!: Date;
+    status!: StatusOfDemand;
+}
 
-    // constructor(username: string, email: string, password: string) {
-    //   this.username = username;
-    //   this.email = email;
-    //   this.password = password;
-    // }
+enum StatusOfDemand {
+    ACCEPTED = 'ACCEPTED',
+    REJECTED = 'REJECTED',
+    NOT_YET_TREATED = 'NOT_YET_TREATED',
 }

@@ -119,7 +119,7 @@ export class UtilisateursComponent implements OnInit {
             this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',
-                detail: 'Product Updated',
+                detail: 'Congé Updated',
                 life: 3000,
             });
         } else {
@@ -128,9 +128,9 @@ export class UtilisateursComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'Product Created',
+                    detail: 'Congé Created',
                     life: 3000,
-                });
+                });""
             });
         }
 

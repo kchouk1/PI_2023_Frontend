@@ -7,7 +7,7 @@ import { Conge } from '../_models/conge';
     providedIn: 'root',
 })
 export class CongeService {
-    private apiUrl = 'http://localhost:8081/GestionDesAbsences/conge';
+    private apiUrl = 'http://localhost:8081/GestionDesAbsences/conges/';
 
     constructor(private http: HttpClient) {}
 
@@ -16,10 +16,7 @@ export class CongeService {
     }
 
     updateConge(conge: Conge): Observable<Conge> {
-        return this.http.put<Conge>(
-            `${this.apiUrl}updateConge/${conge.id}`,
-            conge
-        );
+        return this.http.put<Conge>(`${this.apiUrl}${conge.id}`, conge);
     }
 
     getAllConges(): Observable<any> {

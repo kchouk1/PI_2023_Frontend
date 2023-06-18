@@ -29,12 +29,6 @@ export class AuthGuard implements CanActivate {
     public checkToken() {
         return !!localStorage.getItem('token');
     }
-    //   private setSession(authResult:any) {
-    //     const expiresAt = moment().add(authResult.expiresIn,'second');
-
-    //     localStorage.setItem('token', authResult.token);
-    //     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
-    // }
 
     checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
         if (this.authService.isAuthenticated()) {
