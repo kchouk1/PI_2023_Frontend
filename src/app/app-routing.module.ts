@@ -10,6 +10,8 @@ import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisa
 import { FormationComponent } from './components/contenu/formation/formation.component';
 import { JitsiComponent } from './components/contenu/formation/jitsi/jitsi.component';
 import { MeetComponent } from './components/contenu/formation/jitsi/meet/meet.component';
+import { ProjectComponent } from './components/contenu/project/project.component';
+import { TaskComponent } from './components/contenu/task/task.component';
 
 @NgModule({
     imports: [
@@ -40,6 +42,16 @@ import { MeetComponent } from './components/contenu/formation/jitsi/meet/meet.co
                         {
                             path:'contenu/formation/jitsi/meet',
                             component:MeetComponent
+                        },
+                        {
+                            path : 'contenu/project',
+                            component : ProjectComponent
+
+                        },
+                        {
+                            path:'contenu/task',
+                            component:TaskComponent
+
                         },
 
                         { path: '', pathMatch: 'full', redirectTo: 'contenu/formation' },

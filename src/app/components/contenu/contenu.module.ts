@@ -24,13 +24,13 @@ import { FormationComponent } from './formation/formation.component';
 import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { SelectItem } from 'primeng/api';
-import { ProjetComponent } from './projet/projet.component';
 import { TaskComponent } from './task/task.component';
+import { ProjectComponent } from './project/project.component';
 
 
 
 @NgModule({
-    declarations: [ContenuComponent, UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent, ProjetComponent, TaskComponent],
+    declarations: [ContenuComponent,UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent, TaskComponent, ProjectComponent],
     imports: [
         CommonModule,
         ContenuRoutingModule,
