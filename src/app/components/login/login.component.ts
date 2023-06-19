@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
             (response: any) => {
                 // set the token in the localStorage
                 localStorage.setItem('token', response.accessToken);
+                localStorage.setItem('role', response.roles);
                 this.s.updateLoggedInState(true);
                 // redirect to dashboard
                 this.router.navigateByUrl('/dashboard');
