@@ -27,6 +27,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TeamComponent } from './team/team.component';
 import { CongeComponent } from './conge/conge.component';
+import { HolidayComponent } from './holiday/holiday.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { CongeComponent } from './conge/conge.component';
         PresenceComponent,
         CongeComponent,
         TeamComponent,
+        HolidayComponent,
     ],
     imports: [
         ConfirmPopupModule,

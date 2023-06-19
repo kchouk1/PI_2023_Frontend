@@ -6,6 +6,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { PresenceComponent } from './presence/presence.component';
 import { CongeComponent } from './conge/conge.component';
 import { TeamComponent } from './team/team.component';
+import { HolidayComponent } from './holiday/holiday.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -13,7 +14,7 @@ const routes: Routes = [
         path: 'utilisateurs',
         component: UtilisateursComponent,
         canActivate: [AuthGuard],
-        // data: { role: 'ROLE_ADMIN' },
+        data: { role: 'ROLE_ADMIN' },
     },
     {
         path: 'presence',
@@ -29,6 +30,13 @@ const routes: Routes = [
         path: 'equipe',
         component: TeamComponent,
         canActivate: [AuthGuard],
+        data: { role: 'ROLE_ADMIN' },
+    },
+    {
+        path: 'holidays',
+        component: HolidayComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'ROLE_ADMIN' },
     },
 ];
 

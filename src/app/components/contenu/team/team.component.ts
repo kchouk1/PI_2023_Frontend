@@ -37,6 +37,7 @@ export class TeamComponent implements OnInit {
         this.teamService.getAllTeams().subscribe((r) => {
             this.teams = r;
         });
+        this.selectedUsers = [];
     }
 
     openNew() {
