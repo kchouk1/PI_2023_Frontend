@@ -26,6 +26,8 @@ export class JwtInterceptor implements HttpInterceptor {
                 },
             });
         }
+        console.log(request.headers); //display headers  into entries
+        //console.log(request.headers.get("Authorization"));
 
         return next.handle(request);
     }

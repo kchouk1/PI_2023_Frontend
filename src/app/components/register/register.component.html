@@ -46,6 +46,30 @@
                         class="w-full mb-3"
                         style="padding: 1rem"
                     />
+                    <label class="block text-900 text-xl font-medium mb-2"
+                        >Firstname</label
+                    >
+                    <input
+                        formControlName="firstName"
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        pInputText
+                        class="w-full mb-3"
+                        style="padding: 1rem"
+                    />
+                    <label class="block text-900 text-xl font-medium mb-2"
+                        >Lastname</label
+                    >
+                    <input
+                        formControlName="lastName"
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        pInputText
+                        class="w-full mb-3"
+                        style="padding: 1rem"
+                    />
                     <p-message
                         *ngIf="username && username.invalid && username.touched"
                         severity="warn"

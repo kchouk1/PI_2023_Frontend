@@ -5,6 +5,7 @@ import { Team } from 'src/app/_models/team';
 import { User } from 'src/app/_models/user';
 import { TeamService } from 'src/app/_services/team.service';
 import { UserService } from 'src/app/_services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-team',
@@ -27,7 +28,8 @@ export class TeamComponent implements OnInit {
         private teamService: TeamService,
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
-        private userService: UserService
+        private userService: UserService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -54,8 +56,9 @@ export class TeamComponent implements OnInit {
 
     editTeam(team: Team) {
         this.team = { ...team };
-        this.selectedUsers = this.team.users;
+        this.selectedUsers = this.team.users; 
         this.teamDialog = true;
+
     }
 
     saveTeam() {
@@ -64,7 +67,7 @@ export class TeamComponent implements OnInit {
         if (this.team.id) {
             this.teamService.updateTeam(this.team).subscribe({
                 next: (r) => {
-                    this.teams[this.findIndexById(this.team.id)] = this.team;
+                    this.teams[this.findIndexById(r.id)] = r;
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Successful',
@@ -124,34 +127,6 @@ export class TeamComponent implements OnInit {
             },
         });
     }
-
-    // addUserToTeam(teamId: number, userId: number): void {
-
-    //     this.teamService.addUserToTeam(teamId, ).subscribe((team) => {
-    //         this.userService.getUserById(userId).subscribe((user) => {
-    //             if (team && user) {
-    //                 team.users.push(user);
-    //                 this.teamService.updateTeam(team).subscribe(
-    //                     (updatedTeam) => {
-    //                         console.log(
-    //                             "L'utilisateur a été ajouté à l'équipe avec succès"
-    //                         );
-    //                         // Faire quelque chose si nécessaire après la mise à jour de l'équipe
-    //                     },
-    //                     (error) => {
-    //                         console.error(
-    //                             "Erreur lors de la mise à jour de l'équipe :",
-    //                             error
-    //                         );
-    //                         // Gérer l'erreur en cas d'échec de la mise à jour de l'équipe
-    //                     }
-    //                 );
-    //             } else {
-    //                 throw new Error('Équipe ou utilisateur introuvable');
-    //             }
-    //         });
-    //     });
-    // }
 
     deleteSelectedTeams() {
         this.confirmationService.confirm({
