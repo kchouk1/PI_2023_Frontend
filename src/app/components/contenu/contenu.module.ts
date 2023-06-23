@@ -28,6 +28,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TeamComponent } from './team/team.component';
 import { CongeComponent } from './conge/conge.component';
 import { HolidayComponent } from './holiday/holiday.component';
+import { FormationComponent } from './formation/formation.component';
+import { ProjectComponent } from './project/project.component';
+import { TaskComponent } from './task/task.component';
+
 
 @NgModule({
     declarations: [
@@ -37,6 +41,10 @@ import { HolidayComponent } from './holiday/holiday.component';
         CongeComponent,
         TeamComponent,
         HolidayComponent,
+        FormationComponent,
+        ProjectComponent,
+        TaskComponent,
+   
     ],
     imports: [
         ConfirmPopupModule,

@@ -7,6 +7,9 @@ import { PresenceComponent } from './presence/presence.component';
 import { CongeComponent } from './conge/conge.component';
 import { TeamComponent } from './team/team.component';
 import { HolidayComponent } from './holiday/holiday.component';
+import { TaskComponent } from './task/task.component';
+import { ProjectComponent } from './project/project.component';
+import { FormationComponent } from './formation/formation.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -38,6 +41,27 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: 'ROLE_ADMIN' },
     },
+    {
+        path: 'task',
+        component: TaskComponent,
+        canActivate: [AuthGuard],
+        //data: { role: 'ROLE_ADMIN' },
+    },
+    {
+        path: 'project',
+        component:ProjectComponent ,
+        canActivate: [AuthGuard],
+       // data: { role: 'ROLE_ADMIN' },
+    },
+
+    {
+        path: 'formation',
+        component:FormationComponent ,
+        canActivate: [AuthGuard],
+       // data: { role: 'ROLE_ADMIN' },
+    },
+
+
 ];
 
 @NgModule({
