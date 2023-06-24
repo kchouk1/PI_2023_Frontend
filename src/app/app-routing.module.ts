@@ -17,7 +17,6 @@ import { ProfileComponent } from './components/profile/profile.component';
                 {
                     path: '',
                     component: AppLayoutComponent,
-                 
 
                     children: [
                         {
@@ -29,7 +28,6 @@ import { ProfileComponent } from './components/profile/profile.component';
                             path: 'profile',
                             component: ProfileComponent,
                             canActivate: [AuthGuard],
-                           
                         },
                         { path: '', pathMatch: 'full', redirectTo: 'login' },
                         { path: 'register', component: RegisterComponent },
@@ -44,7 +42,6 @@ import { ProfileComponent } from './components/profile/profile.component';
                         },
                     ],
                 },
-               
 
                 {
                     path: '**',

@@ -8,6 +8,7 @@
           icon="pi pi-plus"
           class="p-button-success mr-2"
           (click)="openNew()"
+          *ngIf="isAdmin"
         ></button>
         <button
           pButton
@@ -17,6 +18,7 @@
           class="p-button-danger"
           (click)="deleteSelectedTasks()"
           [disabled]="!selectedTasks || !selectedTasks.length"
+          *ngIf="isAdmin"
         ></button>
       </ng-template>
   
@@ -80,6 +82,7 @@
               icon="pi pi-pencil"
               class="p-button-rounded p-button-success mr-2"
               (click)="editTask(task)"
+              *ngIf="isAdmin"
             ></button>
             <button
               pButton
@@ -87,6 +90,7 @@
               icon="pi pi-trash"
               class="p-button-rounded p-button-warning"
               (click)="deleteTask(task)"
+              *ngIf="isAdmin"
             ></button>
           </td>
         </tr>

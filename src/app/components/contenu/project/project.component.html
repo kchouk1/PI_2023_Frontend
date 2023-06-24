@@ -8,6 +8,7 @@
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 (click)="openNew()"
+                *ngIf="isAdmin"
             ></button>
             <button
                 pButton
@@ -17,6 +18,7 @@
                 class="p-button-danger"
                 (click)="deleteSelectedProjects()"
                 [disabled]="!selectedProjects || !selectedProjects.length"
+                *ngIf="isAdmin"
             ></button>
         </ng-template>
 
@@ -27,7 +29,6 @@
                 label="Export"
                 icon="pi pi-upload"
                 class="p-button-help"
-
             ></button>
         </ng-template>
     </p-toolbar>
@@ -68,9 +69,10 @@
                     projectName <p-sortIcon field="projectName"></p-sortIcon>
                 </th>
                 <th pSortableColumn="projectStatus">
-                    projectStatus <p-sortIcon field="projectStatus"></p-sortIcon>
+                    projectStatus
+                    <p-sortIcon field="projectStatus"></p-sortIcon>
                 </th>
-               
+
                 <th></th>
             </tr>
         </ng-template>
@@ -81,7 +83,7 @@
                 </td>
                 <td>{{ project.projectName }}</td>
                 <td>{{ project.projectStatus }}</td>
-                
+
                 <td>
                     <button
                         pButton
@@ -89,6 +91,7 @@
                         icon="pi pi-pencil"
                         class="p-button-rounded p-button-success mr-2"
                         (click)="editProject(project)"
+                        *ngIf="isAdmin"
                     ></button>
                     <button
                         pButton
@@ -96,14 +99,15 @@
                         icon="pi pi-trash"
                         class="p-button-rounded p-button-warning"
                         (click)="deleteProject(project)"
+                        *ngIf="isAdmin"
                     ></button>
-            
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{ projects ? projects.length : 0 }} projects.
+                In total there are
+                {{ projects ? projects.length : 0 }} projects.
             </div>
         </ng-template>
     </p-table>
@@ -116,42 +120,39 @@
     [modal]="true"
     styleClass="p-fluid"
 >
- 
-      <ng-template pTemplate="content">
+    <ng-template pTemplate="content">
         <div class="field">
-          <label for="name">Name</label>
-          <input
-            type="text"
-            pInputText
-            id="name"
-            [(ngModel)]="project.projectName"
-            required
-            autofocus
-          />
-          <small class="p-error" *ngIf="!project.projectName">Name is required.</small>
+            <label for="name">Name</label>
+            <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="project.projectName"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!project.projectName"
+                >Name is required.</small
+            >
         </div>
-        
-           
-          <div class="field">
+
+        <div class="field">
             <label for="status">Status</label>
             <input
-            type="text"
-            pInputText
-            id="status"
-            [(ngModel)]="project.projectStatus"
-            required
-            autofocus
-          />
-          <small class="p-error" *ngIf="!project.projectStatus">Status is required.</small>
-          </div>
-          
-          
-  
+                type="text"
+                pInputText
+                id="status"
+                [(ngModel)]="project.projectStatus"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!project.projectStatus"
+                >Status is required.</small
+            >
+        </div>
 
         <!-- ...remaining code... -->
-      </ng-template>
-
-
+    </ng-template>
 
     <ng-template pTemplate="footer">
         <button
@@ -174,4 +175,3 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-

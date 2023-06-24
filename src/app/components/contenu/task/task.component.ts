@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Task } from 'src/app/_models/task';
+import { AuthService } from 'src/app/_services/auth.service';
 import { TaskService } from 'src/app/_services/task.service';
 
 @Component({
@@ -20,15 +21,19 @@ export class TaskComponent implements OnInit {
     submitted: boolean = false;
     rowsPerPageOptions = [5, 10, 20];
     projectId:any;
+    isAdmin: boolean = false;
   
     constructor(
       private taskService: TaskService,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
+      private authService: AuthService,
       private router: Router
     ) { }
   
     ngOnInit(): void {
+      this.isAdmin = this.authService.isAdmin();
+      
       this.getAll();
     }
   

@@ -4,6 +4,7 @@ import { Formation } from 'src/app/_models/formation';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { FormationService } from 'src/app/_services/formation.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-formation',
@@ -19,14 +20,17 @@ export class FormationComponent implements OnInit {
     selectedFormations: Formation[] = [];
     submitted: boolean = false;
     rowsPerPageOptions = [5, 10, 20];
+    isAdmin: boolean = false;
   constructor(
         private formationService: FormationService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
+        private authService: AuthService,
         private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
     this.getAll();
   }
   getAll() {

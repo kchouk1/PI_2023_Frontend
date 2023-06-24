@@ -13,6 +13,8 @@ import { PresenceService } from 'src/app/_services/presence.service';
 import { UserService } from 'src/app/_services/users.service';
 import { CongeService } from 'src/app/_services/conge.service';
 import { Conge } from 'src/app/_models/conge';
+import 'jspdf-autotable';
+import * as FileSaver from 'file-saver';
 
 @Component({
     selector: 'app-presence',
@@ -67,6 +69,11 @@ export class PresenceComponent implements OnInit {
         private holidayService: HolidayService
     ) {}
 
+    cols!: any[];
+
+    exportColumns!: any[];
+    jsPDF: any;
+
     ngOnInit(): void {
         this.checkRole();
         this.userService.getAllusers().subscribe((r) => {
@@ -79,6 +86,48 @@ export class PresenceComponent implements OnInit {
             },
             error: (e) => {},
         });
+
+        this.exportColumns = [
+            {
+                field: 'description',
+                header: 'description',
+                customExportHeader: 'Product Code',
+            },
+            { field: 'description', header: 'description' },
+            { field: 'category', header: 'Category' },
+            { field: 'quantity', header: 'Quantity' },
+        ];
+        this.exportColumns = this.cols.map((col) => ({
+            title: col.header,
+            dataKey: col.field,
+        }));
+    }
+    exportExcel() {
+        import('xlsx').then((xlsx) => {
+            const worksheet = xlsx.utils.json_to_sheet(this.presences);//this.presences
+            const workbook = {
+                Sheets: { data: worksheet },
+                SheetNames: ['data'],
+            };
+            const excelBuffer: any = xlsx.write(workbook, {
+                bookType: 'xlsx',
+                type: 'array',
+            });
+            this.saveAsExcelFile(excelBuffer,this.selectedEmployee.firstName+"_"+this.selectedEmployee.lastName+ ((new Date().getDay() + 1).toString()+ '-' +new Date().getMonth() + 1).toString() + '-' + new Date().getFullYear().toString());
+        });
+    }
+
+    saveAsExcelFile(buffer: any, fileName: string): void {
+        let EXCEL_TYPE =
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        let EXCEL_EXTENSION = '.xlsx';
+        const data: Blob = new Blob([buffer], {
+            type: EXCEL_TYPE,
+        });
+        FileSaver.saveAs(
+            data,
+            fileName + EXCEL_EXTENSION
+        );
     }
 
     handleDateClick(arg: any) {
@@ -214,6 +263,7 @@ export class PresenceComponent implements OnInit {
 
     checkRole() {
         this.isAdmin = this.authService.isAdmin();
+
         if (!this.isAdmin) {
             this.userService.getCurrentUser().subscribe({
                 next: (r) => {

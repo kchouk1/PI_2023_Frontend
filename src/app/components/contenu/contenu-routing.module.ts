@@ -10,6 +10,8 @@ import { HolidayComponent } from './holiday/holiday.component';
 import { TaskComponent } from './task/task.component';
 import { ProjectComponent } from './project/project.component';
 import { FormationComponent } from './formation/formation.component';
+import { JitsiComponent } from './formation/jitsi/jitsi.component';
+import { MeetComponent } from './formation/jitsi/meet/meet.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -59,6 +61,16 @@ const routes: Routes = [
         component:FormationComponent ,
         canActivate: [AuthGuard],
        // data: { role: 'ROLE_ADMIN' },
+    },
+    {
+        path: 'formation/meet/:formationName',
+        component:JitsiComponent ,
+        canActivate: [AuthGuard],
+       // data: { role: 'ROLE_ADMIN' },
+    },
+    {
+        path:'contenu/formation/jitsi/meet',
+        component:MeetComponent
     },
 
 
