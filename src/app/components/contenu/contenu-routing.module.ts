@@ -12,6 +12,7 @@ import { ProjectComponent } from './project/project.component';
 import { FormationComponent } from './formation/formation.component';
 import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
+import { AbsenceComponent } from './absence/absence.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -25,6 +26,12 @@ const routes: Routes = [
         path: 'presence',
         component: PresenceComponent,
         canActivate: [AuthGuard],
+    },
+    {
+        path: 'absence',
+        component: AbsenceComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'ROLE_ADMIN' },
     },
     {
         path: 'conge',
@@ -51,29 +58,27 @@ const routes: Routes = [
     },
     {
         path: 'project',
-        component:ProjectComponent ,
+        component: ProjectComponent,
         canActivate: [AuthGuard],
-       // data: { role: 'ROLE_ADMIN' },
+        // data: { role: 'ROLE_ADMIN' },
     },
 
     {
         path: 'formation',
-        component:FormationComponent ,
+        component: FormationComponent,
         canActivate: [AuthGuard],
-       // data: { role: 'ROLE_ADMIN' },
+        // data: { role: 'ROLE_ADMIN' },
     },
     {
         path: 'formation/meet/:formationName',
-        component:JitsiComponent ,
+        component: JitsiComponent,
         canActivate: [AuthGuard],
-       // data: { role: 'ROLE_ADMIN' },
+        // data: { role: 'ROLE_ADMIN' },
     },
     {
-        path:'contenu/formation/jitsi/meet',
-        component:MeetComponent
+        path: 'contenu/formation/jitsi/meet',
+        component: MeetComponent,
     },
-
-
 ];
 
 @NgModule({

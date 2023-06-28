@@ -31,6 +31,7 @@ import { HolidayComponent } from './holiday/holiday.component';
 import { FormationComponent } from './formation/formation.component';
 import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
+import { AbsenceComponent } from './absence/absence.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { TaskComponent } from './task/task.component';
         FormationComponent,
         ProjectComponent,
         TaskComponent,
+        AbsenceComponent,
    
     ],
     imports: [

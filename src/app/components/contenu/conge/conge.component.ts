@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -132,25 +133,51 @@ export class CongeComponent implements OnInit {
         );
         this.loading = true;
         if (this.conge.id) {
-            this.congeService.updateConge(this.conge).subscribe((r) => {
-                console.log(r);
-            });
-            this.conges[this.findIndexById(this.conge.id)] = this.conge;
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Successful',
-                detail: 'Congé Updated',
-                life: 3000,
+            this.congeService.updateConge(this.conge).subscribe({
+                next: (r) => {
+                    console.log(r);
+                    this.conges[this.findIndexById(r.id!)] = r;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'Congé Updated',
+                        life: 3000,
+                    });
+                },
+                error: (e) => {
+                    console.error(e);
+                    if (e.status === 400) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Date de congé déjà utilisée',
+                            life: 3000,
+                        });
+                    }
+                },
             });
         } else {
-            this.congeService.addConge(this.conge).subscribe((r) => {
-                this.conges.push(r);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Congé Created',
-                    life: 3000,
-                });
+            this.congeService.addConge(this.conge).subscribe({
+                next: (r) => {
+                    this.conges.push(r);
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'Congé Created',
+                        life: 3000,
+                    });
+                },
+                error: (e: HttpErrorResponse) => {
+                    console.error(e);
+                    if (e.status === 400) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Date de congé déjà utilisée',
+                            life: 3000,
+                        });
+                    }
+                },
             });
         }
 

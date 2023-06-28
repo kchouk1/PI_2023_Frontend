@@ -37,6 +37,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/contenu/presence'],
                     },
                     {
+                        label: 'Absence',
+                        icon: 'pi pi-fw pi-clock',
+                        routerLink: ['/contenu/absence'],
+                    },
+                    {
                         label: 'Congé',
                         icon: 'pi pi-calendar-times',
                         routerLink: ['/contenu/conge'],
