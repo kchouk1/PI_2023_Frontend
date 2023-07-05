@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { UtilisateursComponent } from './components/contenu/utilisateurs/utilisateurs.component';
 import { CongeComponent } from './components/contenu/conge/conge.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { ProfileComponent } from './components/profile/profile.component';
                         { path: '', pathMatch: 'full', redirectTo: 'login' },
                         { path: 'register', component: RegisterComponent },
                         { path: 'login', component: LoginComponent },
+                        { path: 'reset', component: ResetpasswordComponent },
                         {
                             path: 'contenu',
 

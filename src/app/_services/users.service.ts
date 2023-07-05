@@ -15,6 +15,11 @@ export class UserService {
         return this.http.post<User>(`${this.apiUrl}ajouterUser`, user);
     }
 
+    resetPassword(email: string): Observable<User> {
+        return this.http.post<User>(`${this.apiUrl}reset`, email);
+    }
+
+
     updateUser(user: User): Observable<User> {
         return this.http.put<User>(`${this.apiUrl}updateUser/${user.id}`, user);
     }

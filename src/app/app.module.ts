@@ -30,6 +30,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { DialogModule } from 'primeng/dialog';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         NotfoundComponent,
         DashboardComponent,
         ProfileComponent,
+        ResetpasswordComponent,
     ],
     imports: [
         AppRoutingModule,
