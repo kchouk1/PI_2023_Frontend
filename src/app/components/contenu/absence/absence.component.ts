@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -100,13 +101,22 @@ export class AbsenceComponent implements OnInit {
                         life: 3000,
                     });
                 },
-                error: () => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Erreur',
-                        detail: 'Erreur de création!',
-                        life: 3000,
-                    });
+                error: (e: HttpErrorResponse) => {
+                    if (e.status === 400) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Date existe déjà!',
+                            life: 3000,
+                        });
+                    } else {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Erreur de création!',
+                            life: 3000,
+                        });
+                    }
                 },
             });
         }

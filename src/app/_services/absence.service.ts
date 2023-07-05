@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Absence } from '../_models/absence';
+import { Presence } from '../_models/presence';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +16,12 @@ export class AbsenceService {
         return this.http.get(this.apiUrl);
     }
 
-    getCurrentMonthAbsences(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/current`);
+    getCurrentMonthAbsences(id: number): Observable<any> {
+        return this.http.get(`${this.apiUrl}/user/${id}/current`);
+    }
+
+    getUserAbsencesByRange(id: number, weekEntry: Presence): Observable<any> {
+        return this.http.post(`${this.apiUrl}/user/${id}/range`, weekEntry);
     }
 
     addAbsence(absence: Absence): Observable<Absence> {

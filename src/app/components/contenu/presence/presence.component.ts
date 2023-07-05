@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -15,12 +15,18 @@ import { CongeService } from 'src/app/_services/conge.service';
 import { Conge } from 'src/app/_models/conge';
 import 'jspdf-autotable';
 import * as FileSaver from 'file-saver';
+import { WorkBook, read, utils } from 'xlsx';
+import { FileUpload } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AbsenceService } from 'src/app/_services/absence.service';
+import { Absence } from 'src/app/_models/absence';
 
 @Component({
     selector: 'app-presence',
     templateUrl: './presence.component.html',
     styleUrls: ['./presence.component.scss'],
-    providers: [DatePipe],
+    providers: [DatePipe, MessageService],
 })
 export class PresenceComponent implements OnInit {
     events: EventInput[] = [];
@@ -47,9 +53,9 @@ export class PresenceComponent implements OnInit {
         displayEventTime: false,
     };
 
-    employees!: User[];
+    employees: User[] = [];
     selectedEmployee!: User;
-    presences!: Presence[];
+    presences: Presence[] = [];
     presence!: Presence;
 
     editing: boolean = false;
@@ -57,8 +63,11 @@ export class PresenceComponent implements OnInit {
     minDate: Date = new Date();
     rangeDates: Date[] = [];
     isAdmin: boolean = false;
-
     holidays: Holiday[] = [];
+    absences: Absence[] = [];
+
+    jsPDF: any;
+    @ViewChild('fubauto') fubauto: FileUpload | undefined;
 
     constructor(
         private presenceService: PresenceService,
@@ -66,13 +75,10 @@ export class PresenceComponent implements OnInit {
         private datePipe: DatePipe,
         private authService: AuthService,
         private congeService: CongeService,
-        private holidayService: HolidayService
+        private holidayService: HolidayService,
+        private messageService: MessageService,
+        private absenceService: AbsenceService
     ) {}
-
-    cols!: any[];
-
-    exportColumns!: any[];
-    jsPDF: any;
 
     ngOnInit(): void {
         this.checkRole();
@@ -86,25 +92,11 @@ export class PresenceComponent implements OnInit {
             },
             error: (e) => {},
         });
-
-        this.exportColumns = [
-            {
-                field: 'description',
-                header: 'description',
-                customExportHeader: 'Product Code',
-            },
-            { field: 'description', header: 'description' },
-            { field: 'category', header: 'Category' },
-            { field: 'quantity', header: 'Quantity' },
-        ];
-        this.exportColumns = this.cols.map((col) => ({
-            title: col.header,
-            dataKey: col.field,
-        }));
     }
+
     exportExcel() {
         import('xlsx').then((xlsx) => {
-            const worksheet = xlsx.utils.json_to_sheet(this.presences);//this.presences
+            const worksheet = xlsx.utils.json_to_sheet(this.presences); //this.presences
             const workbook = {
                 Sheets: { data: worksheet },
                 SheetNames: ['data'],
@@ -113,7 +105,20 @@ export class PresenceComponent implements OnInit {
                 bookType: 'xlsx',
                 type: 'array',
             });
-            this.saveAsExcelFile(excelBuffer,this.selectedEmployee.firstName+"_"+this.selectedEmployee.lastName+ ((new Date().getDay() + 1).toString()+ '-' +new Date().getMonth() + 1).toString() + '-' + new Date().getFullYear().toString());
+            this.saveAsExcelFile(
+                excelBuffer,
+                this.selectedEmployee.firstName +
+                    '_' +
+                    this.selectedEmployee.lastName +
+                    (
+                        (new Date().getDay() + 1).toString() +
+                        '-' +
+                        new Date().getMonth() +
+                        1
+                    ).toString() +
+                    '-' +
+                    new Date().getFullYear().toString()
+            );
         });
     }
 
@@ -124,10 +129,7 @@ export class PresenceComponent implements OnInit {
         const data: Blob = new Blob([buffer], {
             type: EXCEL_TYPE,
         });
-        FileSaver.saveAs(
-            data,
-            fileName + EXCEL_EXTENSION
-        );
+        FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
     }
 
     handleDateClick(arg: any) {
@@ -210,6 +212,7 @@ export class PresenceComponent implements OnInit {
 
     openNew() {
         this.presence = new Presence();
+        this.presence.numberOfHours = 40;
         this.editing = true;
         this.dialog = true;
     }
@@ -231,33 +234,55 @@ export class PresenceComponent implements OnInit {
         if (this.presence.id) {
             this.presenceService
                 .updatePresence(this.presence, this.selectedEmployee.id!)
-                .subscribe(
-                    (r) => {
+                .subscribe({
+                    next: (r) => {
+                        this.createAlert(
+                            'success',
+                            'Succés',
+                            'Présence modifiée avec succés!'
+                        );
                         this.presence = r;
                         this.events[this.findIndexById(r.id)] =
                             this.mapPresenceToEvent(r);
                         this.events = [...this.events];
                         this.dialog = false;
                     },
-                    (e) => {
+                    error: (e) => {
                         console.error(e);
-                    }
-                );
+                        this.createAlert(
+                            'error',
+                            'Erreur',
+                            "Impossible d'effectuer cette opération!"
+                        );
+                    },
+                });
         } else {
             this.presenceService
                 .addPresence(this.presence, this.selectedEmployee.id!)
-                .subscribe(
-                    (_r) => {
+                .subscribe({
+                    next: (_r) => {
+                        this.createAlert(
+                            'success',
+                            'Succés',
+                            'Présence créée avec succés!'
+                        );
                         this.events.push(
                             this.mapPresenceToEvent(this.presence)
                         );
                         this.events = [...this.events];
                         this.dialog = false;
                     },
-                    (e) => {
+                    error: (e: HttpErrorResponse) => {
                         console.error(e);
-                    }
-                );
+                        if (e.status === 400) {
+                            this.createAlert(
+                                'error',
+                                'Erreur',
+                                'Date existe déjà!'
+                            );
+                        }
+                    },
+                });
         }
     }
 
@@ -285,23 +310,89 @@ export class PresenceComponent implements OnInit {
             }
             this.events = [...this.events];
         });
-        this.congeService
-            .getAllCurrentConges(this.selectedEmployee.id!)
-            .subscribe({
-                next: (r) => {
-                    let conges: Conge[] = r;
-                    conges.forEach((conge) => {
-                        this.events.push(this.mapCongeToEvent(conge));
+        this.congeService.getAllCurrentConges(id).subscribe({
+            next: (r) => {
+                let conges: Conge[] = r;
+                conges.forEach((conge) => {
+                    this.events.push(this.mapCongeToEvent(conge));
+                });
+                this.events = [...this.events];
+            },
+            error: (e) => {
+                console.error(e);
+            },
+        });
+        this.absenceService.getCurrentMonthAbsences(id).subscribe({
+          next: (r) => {
+            this.absences = r;
+          this.absences.forEach((absence) => {
+            this.events.push(this.mapAbsenceToEvent(absence));
+        });
+      this.events = [...this.events];
+      },
+      });
+    }
+
+    mapAbsenceToEvent(absence: Absence) {
+        let event: EventInput = {};
+        event.start = new Date(absence.dateAbsence);
+        event.title = 'Absence';
+        if (absence.description) {
+            event.title = `Absence - ${absence.description}`;
+        }
+        event.color = 'red';
+        event.interactive = false;
+        return event;
+    }
+
+    onUpload($event: any) {
+        let reader = new FileReader();
+        let workbook: WorkBook;
+        let XL_row_object: Presence[];
+        $event.files.forEach((file: Blob) => {
+            reader.readAsBinaryString(file);
+            new Promise<Presence[]>((resolve, reject) => {
+                reader.onload = function () {
+                    let data = reader.result;
+                    workbook = read(data, { type: 'binary' });
+                    workbook.SheetNames.forEach(function (sheetName) {
+                        XL_row_object = utils.sheet_to_json(
+                            workbook.Sheets[sheetName]
+                        );
+                        resolve(XL_row_object);
                     });
-                    this.events = [...this.events];
-                },
-                error: (e) => {
-                    console.error(e);
-                },
+                };
+            }).then((arr) => {
+                arr.forEach((row) => {
+                    row.id = NaN;
+                    this.presenceService
+                        .addPresence(row, this.selectedEmployee.id!)
+                        .subscribe({
+                            next: (r) => {
+                                this.events.push(this.mapPresenceToEvent(r));
+                                this.events = [...this.events];
+                            },
+                        });
+                });
             });
+        });
+        this.fubauto?.clear();
+    }
+
+    createAlert(severity: string, summary: string, detail: string) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+            life: 5000,
+        });
     }
 
     dateRangeControl() {
+        if (this.rangeDates[0] != null) {
+            this.rangeDates[1] = new Date(this.rangeDates[0]);
+            this.rangeDates[1].setDate(this.rangeDates[1].getDate() + 4);
+        }
         if (!this.rangeDates.some((el) => el == null)) {
             const dates: Date[] = this.getDatesFromRange(
                 this.rangeDates[0],
@@ -317,6 +408,17 @@ export class PresenceComponent implements OnInit {
             }
             this.rangeDates[1] = chosenDate!;
         }
+        this.presence.numberOfHours = 40;
+        this.absences.forEach((absence) => {
+            let absenceDate = new Date(absence.dateAbsence);
+            absenceDate.setHours(0);
+            if (
+                this.rangeDates[0] <= absenceDate &&
+                absenceDate <= this.rangeDates[1]
+            ) {
+                this.presence.numberOfHours = this.presence.numberOfHours - 8;
+            }
+        });
     }
 
     getDatesFromRange(start: Date, end: Date) {

@@ -8,9 +8,34 @@
             (onChange)="getUserCalendar($event.value.id)"
             appendTo="body"
         ></p-dropdown>
-        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+        <i
+            class="p-toolbar-separator pi pi-bars mr-2"
+            style="vertical-align: middle"
+        ></i>
+        <button
+            pButton
+            pRipple
+            label="Ajouter une semaine"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="openNew()"
+        ></button>
+        
+        <p-fileUpload
+            #fubauto
+            mode="basic"
+            name="demo[]"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            [customUpload]="true"
+            (uploadHandler)="onUpload($event)"
+            [auto]="true"
+            chooseLabel="Importer Excel"
+            chooseIcon="pi pi-upload"
+            [disabled]="!selectedEmployee"
+        ></p-fileUpload>
+        
     </ng-template>
-   
+
     <ng-template pTemplate="right">
         <button
             pButton
@@ -25,12 +50,14 @@
             style="vertical-align: middle"
         ></i>
         <button
+            type="button"
             pButton
             pRipple
-            label="Ajouter une semaine"
-            icon="pi pi-plus"
-            class="p-button-success mr-2"
-            (click)="openNew()"
+            label="Exporter Excel"
+            icon="pi pi-file-excel"
+            (click)="exportExcel()"
+            class="p-button-secondary mr-2"
+            [disabled]="!selectedEmployee"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -46,12 +73,24 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
+            <label for="users">Employé</label>
+            <p-dropdown
+                [options]="employees"
+                [(ngModel)]="selectedEmployee"
+                optionLabel="username"
+                placeholder="Sélectionnez un employé"
+                (onChange)="getUserCalendar($event.value.id)"
+                appendTo="body"
+            ></p-dropdown>
+        </div>
+
+        <div class="field">
             <label for="startDate">Plage de dates</label>
             <p-calendar
                 [(ngModel)]="rangeDates"
                 [showIcon]="true"
                 [firstDayOfWeek]="1"
-                [disabledDays]="[0, 6]"
+                [disabledDays]="[0, 2, 3, 4, 5, 6]"
                 (onSelect)="dateRangeControl()"
                 selectionMode="range"
                 [readonlyInput]="true"
@@ -85,18 +124,6 @@
                 required
                 autofocus
             />
-        </div>
-
-        <div class="field">
-            <label for="users">Employé</label>
-            <p-dropdown
-                [options]="employees"
-                [(ngModel)]="selectedEmployee"
-                optionLabel="username"
-                placeholder="Sélectionnez un employé"
-                (onChange)="getUserCalendar($event.value.id)"
-                appendTo="body"
-            ></p-dropdown>
         </div>
     </ng-template>
 

@@ -28,6 +28,8 @@ import { ButtonModule } from 'primeng/button';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { DialogModule } from 'primeng/dialog';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
     declarations: [
@@ -58,6 +60,8 @@ import { PasswordModule } from 'primeng/password';
         InplaceModule,
         InputTextModule,
         PasswordModule,
+        DialogModule,
+        SelectButtonModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

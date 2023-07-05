@@ -32,6 +32,8 @@ import { FormationComponent } from './formation/formation.component';
 import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
 import { AbsenceComponent } from './absence/absence.component';
+import { ConversionComponent } from './conversion/conversion.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 @NgModule({
@@ -46,6 +48,7 @@ import { AbsenceComponent } from './absence/absence.component';
         ProjectComponent,
         TaskComponent,
         AbsenceComponent,
+        ConversionComponent,
    
     ],
     imports: [
@@ -73,6 +76,7 @@ import { AbsenceComponent } from './absence/absence.component';
         ChartModule,
         FullCalendarModule,
         CalendarModule,
+        FileUploadModule,
     ],
 })
 export class ContenuModule {}
