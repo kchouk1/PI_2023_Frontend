@@ -5,5 +5,6 @@ export class Formation {
         formationStatus?: "string";
         dateStart?: Date;
         dateFinish?: Date;
+        members?:Array<string>;
 
 }

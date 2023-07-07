@@ -29,5 +29,8 @@ export class FormationService {
     removeFormation(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
+    getFormationsByName(formationName: string):Observable<any>{
+        return this.http.get(`${this.apiUrl}/search/${formationName}`);
+    }
 
 }

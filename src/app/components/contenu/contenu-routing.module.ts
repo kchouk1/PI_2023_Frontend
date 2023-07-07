@@ -7,6 +7,8 @@ import { FormationComponent } from './formation/formation.component';
 import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
+import { FormationClientComponent } from './formation-client/formation-client.component';
+import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -28,10 +30,18 @@ const routes: Routes = [
         component:TaskComponent
     },
     {
+        path: 'task/:projectId',
+        component:TaskByProjectComponent
+    },
+    {
         path: 'utilisateurs',
         component: UtilisateursComponent,
         canActivate: [AuthGuard],
     },
+    {
+        path:'formationClient',
+        component:FormationClientComponent
+    }
 ];
 
 @NgModule({

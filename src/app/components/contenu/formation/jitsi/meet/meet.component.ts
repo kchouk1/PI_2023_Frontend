@@ -81,7 +81,7 @@ export class MeetComponent implements OnInit,AfterViewInit {
 
     handleVideoConferenceLeft = () => {
         console.log("handleVideoConferenceLeft");
-        this.router.navigate(['/thank-you']);
+        this.router.navigate(['/contenu/formation']);
     }
 
     handleMuteStatus = (audio: any) => {
@@ -104,7 +104,7 @@ export class MeetComponent implements OnInit,AfterViewInit {
     executeCommand(command: string) {
         this.api.executeCommand(command);;
         if(command == 'hangup') {
-            this.router.navigate(['/thank-you']);
+            this.router.navigate(['/contenu/formation']);
             return;
         }
 

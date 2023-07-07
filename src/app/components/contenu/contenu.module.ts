@@ -26,11 +26,13 @@ import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { SelectItem } from 'primeng/api';
 import { TaskComponent } from './task/task.component';
 import { ProjectComponent } from './project/project.component';
+import { FormationClientComponent } from './formation-client/formation-client.component';
+import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
 
 
 
 @NgModule({
-    declarations: [ContenuComponent,UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent, TaskComponent, ProjectComponent],
+    declarations: [ContenuComponent,UtilisateursComponent,FormationComponent,JitsiComponent,MeetComponent, TaskComponent, ProjectComponent, FormationClientComponent, TaskByProjectComponent],
     imports: [
         CommonModule,
         ContenuRoutingModule,
@@ -53,7 +55,8 @@ import { ProjectComponent } from './project/project.component';
         ConfirmDialogModule,
         ChartModule,
         DropdownModule,
-      
+        
+
     ],
 })
 export class ContenuModule {}

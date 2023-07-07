@@ -162,6 +162,11 @@ findIndexById(id: number): number {
     }
     return index;
 }
+findTaskByProject(project: Project) {
+    if (project.id) {
+      this.router.navigate(['/contenu/task', project.id]);
+    }
+  }
 // navigateToComponent(formationId:number):void {
 //     this.formationService.getFormation(formationId).subscribe((formation: any) => {
 //         const formationName = formation.formationName;

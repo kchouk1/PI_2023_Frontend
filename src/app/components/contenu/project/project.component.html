@@ -70,7 +70,7 @@
                 <th pSortableColumn="projectStatus">
                     projectStatus <p-sortIcon field="projectStatus"></p-sortIcon>
                 </th>
-               
+
                 <th></th>
             </tr>
         </ng-template>
@@ -81,7 +81,7 @@
                 </td>
                 <td>{{ project.projectName }}</td>
                 <td>{{ project.projectStatus }}</td>
-                
+
                 <td>
                     <button
                         pButton
@@ -97,7 +97,15 @@
                         class="p-button-rounded p-button-warning"
                         (click)="deleteProject(project)"
                     ></button>
-            
+                    <button
+                        style="margin-left: 2%;"
+                        pButton
+                        pRipple
+                        icon="pi pi-upload"
+                        class="p-button-rounded p-button-help"
+                        (click)="findTaskByProject(project)"
+                    ></button>
+
                 </td>
             </tr>
         </ng-template>
@@ -116,7 +124,7 @@
     [modal]="true"
     styleClass="p-fluid"
 >
- 
+
       <ng-template pTemplate="content">
         <div class="field">
           <label for="name">Name</label>
@@ -130,8 +138,8 @@
           />
           <small class="p-error" *ngIf="!project.projectName">Name is required.</small>
         </div>
-        
-           
+
+
           <div class="field">
             <label for="status">Status</label>
             <input
@@ -144,9 +152,9 @@
           />
           <small class="p-error" *ngIf="!project.projectStatus">Status is required.</small>
           </div>
-          
-          
-  
+
+
+
 
         <!-- ...remaining code... -->
       </ng-template>

@@ -1,3 +1,229 @@
+// import { Component, OnInit } from '@angular/core';
+// import { Router } from '@angular/router';
+// import { ConfirmationService, MessageService } from 'primeng/api';
+// import { Task } from 'src/app/_models/task';
+// import { TaskService } from 'src/app/_services/wajdi/task.service';
+
+// @Component({
+//   selector: 'app-task',
+//   templateUrl: './task.component.html',
+//   styleUrls: ['./task.component.scss'],
+//   providers: [ConfirmationService, MessageService]
+// })
+// export class TaskComponent implements OnInit {
+
+//     tasks: Task[] = [];
+//     loading: boolean = true;
+//     taskDialog: boolean = false;
+//     task: Task = new Task();
+//     selectedTasks: Task[] = [];
+//     submitted: boolean = false;
+//     rowsPerPageOptions = [5, 10, 20];
+//     projectId:any;
+  
+//     constructor(
+//       private taskService: TaskService,
+//       private messageService: MessageService,
+//       private confirmationService: ConfirmationService,
+//       private router: Router
+//     ) { }
+  
+//     ngOnInit(): void {
+//       this.getAll();
+//       this.checkDeadline(this.tasks);
+//     }
+  
+//     getAll() {
+//       this.taskService.getAllTasks().subscribe(
+//         (tasks) => {
+//           this.tasks = tasks;
+//           console.table(this.tasks);
+//           this.loading = false;
+//         },
+//         (error) => {
+//           console.error(error);
+//         }
+//       );
+//     }
+  
+//     openNew() {
+//       this.task = new Task();
+//       this.loading = false;
+//       this.taskDialog = true;
+//     }
+  
+//     deleteSelectedTasks() {
+//       this.confirmationService.confirm({
+//         message: 'Are you sure you want to delete the selected tasks?',
+//         header: 'Confirm',
+//         icon: 'pi pi-exclamation-triangle',
+//         accept: () => {
+//           this.tasks = this.tasks.filter((val) => !this.selectedTasks.includes(val));
+//           this.selectedTasks = [];
+//           this.messageService.add({
+//             severity: 'success',
+//             summary: 'Successful',
+//             detail: 'Tasks Deleted',
+//             life: 3000,
+//           });
+//         },
+//       });
+//     }
+  
+//     editTask(task: Task) {
+//       this.task = { ...task };
+//       this.taskDialog = true;
+//     }
+  
+//     deleteTask(task: Task) {
+//       if (task.id) {
+//         this.taskService.deleteTask(task.id).subscribe(
+//           () => {
+//             this.tasks = this.tasks.filter((val) => val.id !== task.id);
+//             this.messageService.add({
+//               severity: 'success',
+//               summary: 'Successful',
+//               detail: 'Task Deleted',
+//               life: 3000,
+//             });
+//           },
+//           (error) => {
+//             console.error(error);
+//             this.messageService.add({
+//               severity: 'error',
+//               summary: 'Error',
+//               detail: 'Failed to delete task',
+//               life: 3000,
+//             });
+//           }
+//         );
+//       }
+//     }
+  
+//     hideDialog() {
+//       this.taskDialog = false;
+//       this.loading = false;
+//     }
+  
+//     saveTask() {
+//       this.loading = true;
+  
+//       if (this.task.id) {
+//         // Update existing task
+//         this.taskService.updateTask(this.task.id, this.task).subscribe(
+//           () => {
+//             this.messageService.add({
+//               severity: 'success',
+//               summary: 'Successful',
+//               detail: 'Task Updated',
+//               life: 3000,
+//             });
+//             this.getAll(); // Reload all tasks from the backend
+//           },
+//           (error) => {
+//             console.error(error);
+//             // Handle error scenario, display error message, etc.
+//           }
+//         );
+//       } else {
+//         // Add new task
+//         this.taskService.createTask(this.task, this.projectId).subscribe(
+//           () => {
+//             this.messageService.add({
+//               severity: 'success',
+//               summary: 'Successful',
+//               detail: 'Task Created',
+//               life: 3000,
+//             });
+//             this.getAll(); // Reload all tasks from the backend
+//           },
+//           (error) => {
+//             console.error(error);
+//             // Handle error scenario, display error message, etc.
+//           }
+//         );
+//       }
+  
+//       this.taskDialog = false;
+//       this.task = new Task();
+//     }
+  
+//     findIndexById(id: number): number {
+//       let index = -1;
+//       for (let i = 0; i < this.tasks.length; i++) {
+//         if (this.tasks[i].id === id) {
+//           index = i;
+//           break;
+//         }
+//       }
+//       return index;
+//     }
+//     // checkDeadline() {
+//     //     console.log('Deadline is approaching!');
+//     //     const today = new Date();
+//     //     if (this.task && this.task.deadline) {
+//     //       const deadlineDate = new Date(this.task.deadline);
+        
+//     //       // Calculate the difference in milliseconds between the deadline and today's date
+//     //       const timeDifference = deadlineDate.getTime() - today.getTime();
+        
+//     //       // Calculate the difference in days
+//     //       const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        
+//     //       if (daysDifference <= 7) {
+//     //         // Show the alert or perform any other action
+//     //         console.log('Deadline is approaching!');
+//     //       }
+//     //     }
+//     //   }
+//     checkDeadline(tasks: Task[]) {
+//         const today = new Date();
+//         let isApproaching = false;
+      
+//         for (let i = 0; i < tasks.length; i++) {
+//           const task = tasks[i];
+//           if (task && task.deadline) {
+//             const deadlineDate = new Date(task.deadline);
+      
+//             // Calculate the difference in milliseconds between the deadline and today's date
+//             const timeDifference = deadlineDate.getTime() - today.getTime();
+      
+//             // Calculate the difference in days
+//             const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      
+//             if (daysDifference <= 7) {
+//               isApproaching = true;
+//               break;
+//             }
+//           }
+//         }
+      
+//         return isApproaching;
+//       }
+      
+//       showAlertDialog: boolean = false;
+
+// showAlert(task: Task) {
+//   // Logic to check the deadline for the specific task
+//   const isApproaching = this.checkDeadline(tasks);
+
+//   if (isApproaching) {
+//     this.showAlertDialog = true;
+//   }
+// }
+
+// hideAlert() {
+//   this.showAlertDialog = false;
+// }
+      
+    
+//     // navigateToComponent(taskId: number): void {
+//     //   this.taskService.getTaskById(taskId).subscribe((task: any) => {
+//     //     const taskName = task.taskName;
+//     //     this.router.navigate(['/contenu/task/meet', taskName]); // Pass taskName as route parameter
+//     //   });
+//     // }
+//   }
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -11,161 +237,178 @@ import { TaskService } from 'src/app/_services/wajdi/task.service';
   providers: [ConfirmationService, MessageService]
 })
 export class TaskComponent implements OnInit {
+  tasks: Task[] = [];
+  loading: boolean = true;
+  taskDialog: boolean = false;
+  task: Task = new Task();
+  selectedTasks: Task[] = [];
+  submitted: boolean = false;
+  rowsPerPageOptions = [5, 10, 20];
+  projectId: any;
+  showAlertDialog: boolean = false;
 
-    tasks: Task[] = [];
-    loading: boolean = true;
-    taskDialog: boolean = false;
-    task: Task = new Task();
-    selectedTasks: Task[] = [];
-    submitted: boolean = false;
-    rowsPerPageOptions = [5, 10, 20];
-    projectId:any;
-  
-    constructor(
-      private taskService: TaskService,
-      private messageService: MessageService,
-      private confirmationService: ConfirmationService,
-      private router: Router
-    ) { }
-  
-    ngOnInit(): void {
-      this.getAll();
-    }
-  
-    getAll() {
-      this.taskService.getAllTasks().subscribe(
-        (tasks) => {
-          this.tasks = tasks;
-          console.table(this.tasks);
-          this.loading = false;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    }
-  
-    openNew() {
-      this.task = new Task();
-      this.loading = false;
-      this.taskDialog = true;
-    }
-  
-    deleteSelectedTasks() {
-      this.confirmationService.confirm({
-        message: 'Are you sure you want to delete the selected tasks?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.tasks = this.tasks.filter((val) => !this.selectedTasks.includes(val));
-          this.selectedTasks = [];
+  constructor(
+    private taskService: TaskService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.getAll();
+  }
+
+  getAll() {
+    this.taskService.getAllTasks().subscribe(
+      (tasks) => {
+        this.tasks = tasks;
+        console.table(this.tasks);
+        this.loading = false;
+        this.checkDeadline();
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  openNew() {
+    this.task = new Task();
+    this.loading = false;
+    this.taskDialog = true;
+  }
+
+  deleteSelectedTasks() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected tasks?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.tasks = this.tasks.filter((val) => !this.selectedTasks.includes(val));
+        this.selectedTasks = [];
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Tasks Deleted',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  editTask(task: Task) {
+    this.task = { ...task };
+    this.taskDialog = true;
+  }
+
+  deleteTask(task: Task) {
+    if (task.id) {
+      this.taskService.deleteTask(task.id).subscribe(
+        () => {
+          this.tasks = this.tasks.filter((val) => val.id !== task.id);
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
-            detail: 'Tasks Deleted',
+            detail: 'Task Deleted',
             life: 3000,
           });
         },
-      });
+        (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to delete task',
+            life: 3000,
+          });
+        }
+      );
     }
-  
-    editTask(task: Task) {
-      this.task = { ...task };
-      this.taskDialog = true;
+  }
+
+  hideDialog() {
+    this.taskDialog = false;
+    this.loading = false;
+  }
+
+  saveTask() {
+    this.loading = true;
+
+    if (this.task.id) {
+      // Update existing task
+      this.taskService.updateTask(this.task.id, this.task).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Task Updated',
+            life: 3000,
+          });
+          this.getAll(); // Reload all tasks from the backend
+        },
+        (error) => {
+          console.error(error);
+          // Handle error scenario, display error message, etc.
+        }
+      );
+    } else {
+      // Add new task
+      this.taskService.createTask(this.task, this.projectId).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Task Created',
+            life: 3000,
+          });
+          this.getAll(); // Reload all tasks from the backend
+        },
+        (error) => {
+          console.error(error);
+          // Handle error scenario, display error message, etc.
+        }
+      );
     }
-  
-    deleteTask(task: Task) {
-      if (task.id) {
-        this.taskService.deleteTask(task.id).subscribe(
-          () => {
-            this.tasks = this.tasks.filter((val) => val.id !== task.id);
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Task Deleted',
-              life: 3000,
-            });
-          },
-          (error) => {
-            console.error(error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Failed to delete task',
-              life: 3000,
-            });
-          }
-        );
+
+    this.taskDialog = false;
+    this.task = new Task();
+  }
+
+  findIndexById(id: number): number {
+    let index = -1;
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].id === id) {
+        index = i;
+        break;
       }
     }
-  
-    hideDialog() {
-      this.taskDialog = false;
-      this.loading = false;
-    }
-  
-    saveTask() {
-      this.loading = true;
-  
-      if (this.task.id) {
-        // Update existing task
-        this.taskService.updateTask(this.task.id, this.task).subscribe(
-          () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Task Updated',
-              life: 3000,
-            });
-            this.getAll(); // Reload all tasks from the backend
-          },
-          (error) => {
-            console.error(error);
-            // Handle error scenario, display error message, etc.
-          }
-        );
-      } else {
-        // Add new task
-        this.taskService.createTask(this.task, this.projectId).subscribe(
-          () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Task Created',
-              life: 3000,
-            });
-            this.getAll(); // Reload all tasks from the backend
-          },
-          (error) => {
-            console.error(error);
-            // Handle error scenario, display error message, etc.
-          }
-        );
-      }
-  
-      this.taskDialog = false;
-      this.task = new Task();
-    }
-  
-    findIndexById(id: number): number {
-      let index = -1;
-      for (let i = 0; i < this.tasks.length; i++) {
-        if (this.tasks[i].id === id) {
-          index = i;
+    return index;
+  }
+
+  checkDeadline() {
+    const today = new Date();
+    for (let i = 0; i < this.tasks.length; i++) {
+      const task = this.tasks[i];
+      if (task && task.deadline) {
+        const deadlineDate = new Date(task.deadline);
+        const timeDifference = deadlineDate.getTime() - today.getTime();
+        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        if (daysDifference <= 7) {
+          this.showAlertDialog = true;
           break;
         }
       }
-      return index;
     }
-  
-    // navigateToComponent(taskId: number): void {
-    //   this.taskService.getTaskById(taskId).subscribe((task: any) => {
-    //     const taskName = task.taskName;
-    //     this.router.navigate(['/contenu/task/meet', taskName]); // Pass taskName as route parameter
-    //   });
-    // }
   }
-  
+  showAlert(task: any) {
+    // Implement your logic here
+    console.log("Alert clicked!", task);
+  }
+  hideAlert() {
+    this.showAlertDialog = false;
+  }
+}
+
   
   
   

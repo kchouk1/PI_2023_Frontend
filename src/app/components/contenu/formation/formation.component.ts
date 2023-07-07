@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formation',
-  templateUrl: './formation.component.html',
+  templateUrl:'./formation.component.html',
   styleUrls: ['./formation.component.scss'],
   providers: [ConfirmationService, MessageService],
 })
@@ -17,7 +17,8 @@ export class FormationComponent implements OnInit {
     formation: Formation = new Formation();
     selectedFormations: Formation[] = [];
     submitted: boolean = false;
-    rowsPerPageOptions = [5, 10, 20];
+    rowsPerPageOptions = [5, 5, 10];
+    membersInput: string = '';
   constructor(
         private formationService: FormationService,
         private messageService: MessageService,
@@ -40,6 +41,16 @@ export class FormationComponent implements OnInit {
         }
     );
 }
+getFormationsByName(formationName: string) {
+    this.formationService.getFormationsByName(formationName).subscribe(
+      (response: any) => {
+        this.formations = response; // Assign the retrieved formations to the variable
+      },
+      (error: any) => {
+        console.error('Error retrieving formations:', error);
+      }
+    );
+  }
 
 openNew() {
     this.formation = new Formation();
@@ -106,48 +117,97 @@ hideDialog() {
 }
 
 
+// saveFormation() {
+//     this.loading = true;
+
+//     if (this.formation.id) {
+//         // Update existing formation
+//         this.formationService.updateFormation(this.formation).subscribe(
+//             () => {
+//                 this.messageService.add({
+//                     severity: 'success',
+//                     summary: 'Successful',
+//                     detail: 'Formation Updated',
+//                     life: 3000,
+//                 });
+//                 this.getAll(); // Reload all formations from the backend
+//             },
+//             (error) => {
+//                 console.error(error);
+//                 // Handle error scenario, display error message, etc.
+//             }
+//         );
+//     } else {
+//         // Add new formation
+//         this.formationService.addFormation(this.formation).subscribe(
+//             () => {
+//                 this.messageService.add({
+//                     severity: 'success',
+//                     summary: 'Successful',
+//                     detail: 'Formation Created',
+//                     life: 3000,
+//                 });
+//                 this.getAll(); // Reload all formations from the backend
+//             },
+//             (error) => {
+//                 console.error(error);
+//                 // Handle error scenario, display error message, etc.
+//             }
+//         );
+//     }
+
+//     this.formationDialog = false;
+//     this.formation = new Formation();
+// }
 saveFormation() {
     this.loading = true;
 
-    if (this.formation.id) {
-        // Update existing formation
-        this.formationService.updateFormation(this.formation).subscribe(
-            () => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Formation Updated',
-                    life: 3000,
-                });
-                this.getAll(); // Reload all formations from the backend
-            },
-            (error) => {
-                console.error(error);
-                // Handle error scenario, display error message, etc.
-            }
-        );
+    if (this.membersInput) {
+      this.formation.members = this.membersInput.split(',');
     } else {
-        // Add new formation
-        this.formationService.addFormation(this.formation).subscribe(
-            () => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Formation Created',
-                    life: 3000,
-                });
-                this.getAll(); // Reload all formations from the backend
-            },
-            (error) => {
-                console.error(error);
-                // Handle error scenario, display error message, etc.
-            }
-        );
+      this.formation.members = [];
+    }
+
+    if (this.formation.id) {
+      // Update existing formation
+      this.formationService.updateFormation(this.formation).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Formation Updated',
+            life: 3000,
+          });
+          this.getAll(); // Reload all formations from the backend
+        },
+        (error) => {
+          console.error(error);
+          // Handle error scenario, display error message, etc.
+        }
+      );
+    } else {
+      // Add new formation
+      this.formationService.addFormation(this.formation).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Formation Created',
+            life: 3000,
+          });
+          this.getAll(); // Reload all formations from the backend
+        },
+        (error) => {
+          console.error(error);
+          // Handle error scenario, display error message, etc.
+        }
+      );
     }
 
     this.formationDialog = false;
     this.formation = new Formation();
-}
+  }
+
 
 
 

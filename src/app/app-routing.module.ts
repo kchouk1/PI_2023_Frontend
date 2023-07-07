@@ -12,6 +12,8 @@ import { JitsiComponent } from './components/contenu/formation/jitsi/jitsi.compo
 import { MeetComponent } from './components/contenu/formation/jitsi/meet/meet.component';
 import { ProjectComponent } from './components/contenu/project/project.component';
 import { TaskComponent } from './components/contenu/task/task.component';
+import { Project } from './_models/project';
+import { TaskByProjectComponent } from './components/contenu/task-by-project/task-by-project.component';
 
 @NgModule({
     imports: [
@@ -52,6 +54,10 @@ import { TaskComponent } from './components/contenu/task/task.component';
                             path:'contenu/task',
                             component:TaskComponent
 
+                        },
+                        {
+                            path:'contenu/task/:projectId',
+                            component : TaskByProjectComponent
                         },
 
                         { path: '', pathMatch: 'full', redirectTo: 'contenu/formation' },

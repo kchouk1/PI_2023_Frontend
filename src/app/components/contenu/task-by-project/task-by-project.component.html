@@ -1,24 +1,4 @@
 <div class="card">
-    <div class="card">
-        <p-dialog [(visible)]="showAlertDialog" [modal]="true" [style]="{ 'max-width': '400px' }">
-            <p-header>
-              <div class="dialog-header">
-                <i class="pi pi-exclamation-circle"></i>
-                <h4>Deadline Alert</h4>
-              </div>
-            </p-header>
-            <ng-container *ngFor="let task of tasks">
-              <div class="task-item">
-                <span>{{ task.taskName }}</span>
-              </div>
-            </ng-container>
-            <p-footer>
-              <button pButton type="button" label="OK" (click)="hideAlert()" class="p-button-secondary"></button>
-            </p-footer>
-          </p-dialog>
-          
-          
-  
     <p-toolbar styleClass="mb-4">
       <ng-template pTemplate="left">
         <button
@@ -78,17 +58,17 @@
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
           <th pSortableColumn="taskName">
-            Task Name <p-sortIcon field="taskName"></p-sortIcon>
+            taskName <p-sortIcon field="taskName"></p-sortIcon>
           </th>
           <th pSortableColumn="taskStatus">
-            Task Status <p-sortIcon field="taskStatus"></p-sortIcon>
+            taskStatus <p-sortIcon field="taskStatus"></p-sortIcon>
           </th>
           <th pSortableColumn="startDate">
-            Start Date <p-sortIcon field="startDate"></p-sortIcon>
-          </th>
-          <th pSortableColumn="dateFinish">
-            Deadline <p-sortIcon field="dateFinish"></p-sortIcon>
-          </th>
+            startDate <p-sortIcon field="startDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="dateFinish">
+            deadline <p-sortIcon field="dateFinish"></p-sortIcon>
+        </th>
           <th></th>
         </tr>
       </ng-template>
@@ -129,24 +109,24 @@
   
   <p-dialog [(visible)]="taskDialog" [style]="{ width: '450px' }" header="Task Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">ProjectId</label>
+            <input
+              type="text"
+              pInputText
+              id="name"
+              [(ngModel)]="projectId"
+              required
+              autofocus
+            />
+            <small class="p-error" *ngIf="!projectId">ProjectID is required.</small>
+          </div>
       <div class="field">
-        <label for="projectId">Project ID</label>
+        <label for="name">Name</label>
         <input
           type="text"
           pInputText
-          id="projectId"
-          [(ngModel)]="projectId"
-          required
-          autofocus
-        />
-        <small class="p-error" *ngIf="!projectId">Project ID is required.</small>
-      </div>
-      <div class="field">
-        <label for="taskName">Name</label>
-        <input
-          type="text"
-          pInputText
-          id="taskName"
+          id="name"
           [(ngModel)]="task.taskName"
           required
           autofocus
@@ -154,11 +134,11 @@
         <small class="p-error" *ngIf="!task.taskName">Name is required.</small>
       </div>
       <div class="field">
-        <label for="taskStatus">Status</label>
+        <label for="status">Status</label>
         <input
           type="text"
           pInputText
-          id="taskStatus"
+          id="status"
           [(ngModel)]="task.taskStatus"
           required
           autofocus
@@ -177,16 +157,17 @@
         <small class="p-error" *ngIf="!task.startDate">Start Date is required.</small>
       </div>
       <div class="field">
-        <label for="deadline">Deadline</label>
+        <label for="dateFinish">Finish Date</label>
         <input
           type="date"
           pInputText
-          id="deadline"
+          id="dateFinish"
           [(ngModel)]="task.deadline"
           required
         />
-        <small class="p-error" *ngIf="!task.deadline">Deadline is required.</small>
+        <small class="p-error" *ngIf="!task.deadline">Finish Date is required.</small>
       </div>
+      
     </ng-template>
     <ng-template pTemplate="footer">
       <button
