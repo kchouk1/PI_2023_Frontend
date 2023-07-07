@@ -4,6 +4,11 @@ import { Table } from 'primeng/table';
 import { User } from 'src/app/_models/user';
 import { AuthService } from 'src/app/_services/auth.service';
 import { UserService } from 'src/app/_services/users.service';
+import { formatDate } from '@angular/common';
+//import jsPDF from 'jspdf';
+declare const require: any;
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 
 @Component({
     selector: 'app-utilisateurs',
@@ -18,6 +23,9 @@ export class UtilisateursComponent implements OnInit {
     user: User = new User();
     selectedUsers: User[] = [];
     isAdmin: boolean = false;
+    exportColumns: any[] | undefined;
+    cols: any[] | undefined;
+
     @ViewChild('dt') dt: Table | undefined;
 
     constructor(
@@ -30,6 +38,20 @@ export class UtilisateursComponent implements OnInit {
     ngOnInit(): void {
         this.isAdmin = this.authService.isAdmin();
         this.getAll();
+
+        this.cols = [
+            { field: 'nom', header: 'Nom', customExportHeader: 'nom' },
+            { field: 'typeChampionnat', header: 'Type Championnat' },
+            { field: 'equipe', header: 'Equipe' },
+            { field: 'terrain', header: 'Terrain' },
+            { field: 'arbitre', header: 'Arbitre' },
+            { field: 'score', header: 'Score' },
+        ];
+
+        this.exportColumns = this.cols.map((col) => ({
+            title: col.header,
+            dataKey: col.field,
+        }));
     }
 
     getAll() {
@@ -49,6 +71,30 @@ export class UtilisateursComponent implements OnInit {
         this.user = new User();
         this.loading = false;
         this.userDialog = true;
+    }
+
+    exportPdf() {
+        //  this.loadData();
+        let doc = new jsPDF.default('l', 'pt');
+        var img = new Image();
+        //img.src = 'assets/logo.png';
+        // doc.addImage(img, 'png', 100, 20, 100, 100);
+        doc.setTextColor(0, 0, 139);
+        var date = formatDate(new Date(), 'yyyy/MM/dd hh:mm a', 'en');
+        doc.text(600, 70, 'KAWAR.TN');
+        doc.text(600, 90, ' ' + date);
+        doc.text(110, 110, 'KAWAR.TN');
+        doc.setTextColor(255, 0, 0);
+        doc.text(320, 130, 'Liste des championnats\n');
+        doc.autoTable(this.exportColumns, this.users, {
+            theme: 'grid',
+            styles: {
+                halign: 'left',
+            },
+            margin: {
+                top: 180,
+            },
+        });
     }
 
     deleteSelectedUsers() {
@@ -130,7 +176,8 @@ export class UtilisateursComponent implements OnInit {
                     summary: 'Successful',
                     detail: 'Congé Created',
                     life: 3000,
-                });""
+                });
+                ('');
             });
         }
 

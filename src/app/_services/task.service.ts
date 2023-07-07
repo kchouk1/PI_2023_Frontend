@@ -31,4 +31,5 @@ export class TaskService {
       getAllTasksByProjectId(projectId: number): Observable<Task[]> {
         return this.http.get<Task[]>(`${this.apiUrl}/project/${projectId}`);
       }
+    
     }

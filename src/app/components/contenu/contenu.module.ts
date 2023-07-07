@@ -34,6 +34,10 @@ import { TaskComponent } from './task/task.component';
 import { AbsenceComponent } from './absence/absence.component';
 import { ConversionComponent } from './conversion/conversion.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { Formation } from 'src/app/_models/formation';
+import { JitsiComponent } from './formation/jitsi/jitsi.component';
+import { MeetComponent } from './formation/jitsi/meet/meet.component';
+import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
 
 
 @NgModule({
@@ -44,11 +48,14 @@ import { FileUploadModule } from 'primeng/fileupload';
         CongeComponent,
         TeamComponent,
         HolidayComponent,
-        FormationComponent,
-        ProjectComponent,
-        TaskComponent,
         AbsenceComponent,
         ConversionComponent,
+        TaskComponent,
+        ProjectComponent,
+        FormationComponent,
+        JitsiComponent,
+        MeetComponent,
+        TaskByProjectComponent,
    
     ],
     imports: [

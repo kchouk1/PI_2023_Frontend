@@ -4,7 +4,7 @@ export class Task {
     id?: number;
     taskName?: "string";
     taskStatus?: "string"; 
-    dateStart?: Date;
+    startDate?: Date;
     deadline?: Date;   
     project?:number;
 }

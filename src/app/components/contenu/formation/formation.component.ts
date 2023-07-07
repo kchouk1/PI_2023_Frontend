@@ -21,6 +21,7 @@ export class FormationComponent implements OnInit {
     submitted: boolean = false;
     rowsPerPageOptions = [5, 10, 20];
     isAdmin: boolean = false;
+    membersInput: string = '';
   constructor(
         private formationService: FormationService,
         private messageService: MessageService,
@@ -123,7 +124,11 @@ hideDialog() {
 
 saveFormation() {
     this.loading = true;
-
+    if (this.membersInput) {
+      this.formation.members = this.membersInput.split(',');
+    } else {
+      this.formation.members = [];
+    }
     if (this.formation.id) {
         // Update existing formation
         this.formationService.updateFormation(this.formation).subscribe(

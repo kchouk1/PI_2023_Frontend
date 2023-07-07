@@ -42,6 +42,9 @@ export class CongeComponent implements OnInit {
     ngOnInit(): void {
         this.isAdmin = this.authService.isAdmin();
         this.getAll();
+       // console.table(this.userService.getCurrentUser);
+     //  const currentUser = this.userService.getCurrentUser();
+     //  console.log( `currentUser:${currentUser}`); 
     }
 
     getAll() {

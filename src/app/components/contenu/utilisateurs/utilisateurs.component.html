@@ -20,7 +20,9 @@
                 (click)="deleteSelectedUsers()"
                 [disabled]="!selectedUsers || !selectedUsers.length"
             ></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"   (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
         </ng-template>
+    
 
         <!-- <ng-template pTemplate="right">
             <button

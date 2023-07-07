@@ -13,6 +13,7 @@ import { FormationComponent } from './formation/formation.component';
 import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { AbsenceComponent } from './absence/absence.component';
+import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -76,8 +77,14 @@ const routes: Routes = [
         // data: { role: 'ROLE_ADMIN' },
     },
     {
-        path: 'contenu/formation/jitsi/meet',
+        path: 'formation/jitsi/meet',
         component: MeetComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'task/:projectId',
+        component: TaskByProjectComponent,
+        canActivate: [AuthGuard],
     },
 ];
 
