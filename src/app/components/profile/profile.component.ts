@@ -53,11 +53,19 @@ export class ProfileComponent implements OnInit {
                 });
             this.congeService.getSoldeConge(this.user.id!).subscribe({
                 next: (r) => {
+                    
                     console.log(r);
                     this.soldeConge = r;
                 },
             });
+            this.congeService.getUserSoldeConge(this.user.id!).subscribe({
+            next: (r) => {
+                this.soldeConge = r;
+            },
         });
+        });
+        
+    
     }
 
     saveUser() {

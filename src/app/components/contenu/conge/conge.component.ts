@@ -27,6 +27,14 @@ export class CongeComponent implements OnInit {
     selectedConge: Conge[] = [];
     users: User[] = [];
     isAdmin: boolean = false;
+    user: User = new User();
+    soldeConge: number = 0;
+    dureeConge: number = 0;
+    caluleeeer : number=1000 * 60 * 60 * 24;
+    forum:any={
+        dateDebut:Date,
+        dateFin:Date,
+    }
 
     @ViewChild('dt') dt: Table | undefined;
 
@@ -41,12 +49,19 @@ export class CongeComponent implements OnInit {
 
     ngOnInit(): void {
         this.isAdmin = this.authService.isAdmin();
+       
+        console.log("jjj",this.dureeConge)
         this.getAll();
-       // console.table(this.userService.getCurrentUser);
-     //  const currentUser = this.userService.getCurrentUser();
-     //  console.log( `currentUser:${currentUser}`); 
+        this.userService.getCurrentUser().subscribe((r) => {
+            this.user = r;
+            this.congeService.getUserSoldeConge(this.user.id!).subscribe({
+                next: (r) => {
+                    console.log('nonoullll', this.user.id);
+                    this.soldeConge = r;
+                },
+            });
+        });
     }
-
     getAll() {
         this.userService.getAllusers().subscribe((r) => {
             this.users = r;
@@ -64,7 +79,15 @@ export class CongeComponent implements OnInit {
     }
 
     openNew() {
+        
         this.conge = new Conge();
+        this.conge.soldeConge = this.soldeConge;
+        
+        // this.conge.dateDebut=this.forum.dateDebut;
+        // this.conge.dateFin=this.forum.dateFin;
+      //  this.conge.duree=this.dureeConge;
+  
+
         this.loading = false;
         this.congeDialog = true;
     }
@@ -94,6 +117,9 @@ export class CongeComponent implements OnInit {
     }
 
     editConge(conge: Conge) {
+        const diffInMs = new Date(this.conge.dateFin).getTime() - new Date(this.conge.dateDebut).getTime();
+        
+        this.conge.soldeConge = this.soldeConge;
         this.conge = { ...conge };
         this.congeDialog = true;
     }
@@ -124,8 +150,23 @@ export class CongeComponent implements OnInit {
         this.congeDialog = false;
         this.loading = false;
     }
+    calculerDuree() {
+        const congeId = 1; // Remplacez 1 par l'ID du congé que vous souhaitez calculer
+        this.congeService
+            .calculerDureeConge(21)
 
+            .then((duree) => (this.dureeConge = duree));
+
+        console.log('TestTesttesTest', this.conge.duree);
+        //.catch(error => console.error(error));
+    }
     saveConge() {
+        const diffInMs = new Date(this.conge.dateFin).getTime() - new Date(this.conge.dateDebut).getTime();
+
+        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+         this.conge.duree = diffInDays;
+         console.log(diffInDays)
+         this.conge.duree=diffInDays;
         this.conge.dateDebut = this.datePipe.transform(
             this.conge.dateDebut,
             'yyyy-MM-dd'
@@ -134,11 +175,13 @@ export class CongeComponent implements OnInit {
             this.conge.dateFin,
             'yyyy-MM-dd'
         );
+        this.conge.soldeConge = this.soldeConge;
+        
         this.loading = true;
         if (this.conge.id) {
             this.congeService.updateConge(this.conge).subscribe({
                 next: (r) => {
-                    console.log(r);
+                    console.log("jjjjjj",this.dureeConge);
                     this.conges[this.findIndexById(r.id!)] = r;
                     this.messageService.add({
                         severity: 'success',
@@ -161,7 +204,10 @@ export class CongeComponent implements OnInit {
             });
         } else {
             this.congeService.addConge(this.conge).subscribe({
+           
                 next: (r) => {
+                    this.conge.duree=((this.conge.dateFin-this.conge.dateDebut/(1000 * 60 * 60 * 24)));    /// 
+                    console.log("uuuuuuu",this.conge.duree);
                     this.conges.push(r);
                     this.messageService.add({
                         severity: 'success',
