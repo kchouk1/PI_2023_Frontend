@@ -26,7 +26,9 @@ export class UserService {
     getAllusers(): Observable<any> {
         return this.http.get(this.apiUrl);
     }
-
+    getUserCount(): Observable<any> {
+        return this.http.get(`${this.apiUrl}count`);
+    }
     getCurrentUser(): Observable<any> {
         return this.http.get(`${this.apiUrl}current`);
     }

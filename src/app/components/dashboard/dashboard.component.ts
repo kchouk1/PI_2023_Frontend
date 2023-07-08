@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import { AppConfigService } from 'src/app/_services/AppConfigService';
+import { CongeService } from 'src/app/_services/conge.service';
 import { UserService } from 'src/app/_services/users.service';
 import { AppConfig } from 'src/app/layout/service/app.layout.service';
 
@@ -12,29 +13,46 @@ import { AppConfig } from 'src/app/layout/service/app.layout.service';
 })
 export class DashboardComponent implements OnInit {
     basicData: any;
-
     multiAxisData: any;
-
     multiAxisOptions: any;
-
     lineStylesData: any;
-
     basicOptions: any;
-
     subscription!: Subscription;
     data: any;
-
     chartOptions: any;
     config!: AppConfig;
     employees: User[] = [];
+    countusers: number=0;
 
-    constructor(private messageService: MessageService, private configService: AppConfigService,  private userService: UserService) {}
+    constructor(private messageService: MessageService, private configService: AppConfigService,  private userService: UserService , private CongeService: CongeService) {}
 
     ngOnInit() {
-        this.userService.getAllusers().subscribe((r) => {
-            this.employees = r;
-            console.log("kkkkkkkkkkkkkk",this.employees)
+        this.userService.getUserCount().subscribe((r) => {
+            this.countusers = r;
+
+            this.CongeService.getAllConges();
+        
+        this.data = {
+            labels: ['A','B','Users'],
+            datasets: [
+                {
+                    data: [3, 8,this.countusers],
+                    backgroundColor: [
+                        "#42A5F5",
+                        "#66BB6A",
+                        "#FFA726"
+                    ],
+                    hoverBackgroundColor: [
+                        "#64B5F6",
+                        "#81C784",
+                        "#FFB74D"
+                    ]
+                }
+            ]
+        };
+
         });
+        
         this.basicData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -56,24 +74,7 @@ export class DashboardComponent implements OnInit {
         };
 
 
-        this.data = {
-            labels: ['A','B','C'],
-            datasets: [
-                {
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        "#42A5F5",
-                        "#66BB6A",
-                        "#FFA726"
-                    ],
-                    hoverBackgroundColor: [
-                        "#64B5F6",
-                        "#81C784",
-                        "#FFB74D"
-                    ]
-                }
-            ]
-        };
+       
 
         this.config = this.configService.config;
        // this.updateChartOptions();

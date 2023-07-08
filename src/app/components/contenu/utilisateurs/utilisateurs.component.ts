@@ -38,7 +38,6 @@ export class UtilisateursComponent implements OnInit {
     ngOnInit(): void {
         this.isAdmin = this.authService.isAdmin();
         this.getAll();
-
         this.cols = [
             { field: 'nom', header: 'Nom', customExportHeader: 'nom' },
             { field: 'typeChampionnat', header: 'Type Championnat' },
