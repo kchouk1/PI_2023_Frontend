@@ -25,8 +25,10 @@ export class UtilisateursComponent implements OnInit {
     isAdmin: boolean = false;
     exportColumns: any[] | undefined;
     cols: any[] | undefined;
+    countusers: number=0;
 
     @ViewChild('dt') dt: Table | undefined;
+    CongeService: any;
 
     constructor(
         private userService: UserService,
@@ -38,13 +40,18 @@ export class UtilisateursComponent implements OnInit {
     ngOnInit(): void {
         this.isAdmin = this.authService.isAdmin();
         this.getAll();
+        this.userService.getUserCount().subscribe((r: number) => {
+            this.countusers = r;
+           
+        });
         this.cols = [
-            { field: 'nom', header: 'Nom', customExportHeader: 'nom' },
-            { field: 'typeChampionnat', header: 'Type Championnat' },
-            { field: 'equipe', header: 'Equipe' },
-            { field: 'terrain', header: 'Terrain' },
-            { field: 'arbitre', header: 'Arbitre' },
-            { field: 'score', header: 'Score' },
+            { field: 'username', header: 'Username', customExportHeader: 'username' },    
+            { field: 'email', header: 'Email' },
+            { field: 'firstName', header: 'FirstName' },
+            { field: 'lastName', header: 'LastName' },
+            { field: 'phoneNumber', header: 'Phone Number' },
+
+        
         ];
 
         this.exportColumns = this.cols.map((col) => ({
@@ -72,29 +79,37 @@ export class UtilisateursComponent implements OnInit {
         this.userDialog = true;
     }
 
-    exportPdf() {
-        //  this.loadData();
-        let doc = new jsPDF.default('l', 'pt');
-        var img = new Image();
-        //img.src = 'assets/logo.png';
-        // doc.addImage(img, 'png', 100, 20, 100, 100);
-        doc.setTextColor(0, 0, 139);
-        var date = formatDate(new Date(), 'yyyy/MM/dd hh:mm a', 'en');
-        doc.text(600, 70, 'KAWAR.TN');
-        doc.text(600, 90, ' ' + date);
-        doc.text(110, 110, 'KAWAR.TN');
-        doc.setTextColor(255, 0, 0);
-        doc.text(320, 130, 'Liste des championnats\n');
-        doc.autoTable(this.exportColumns, this.users, {
-            theme: 'grid',
-            styles: {
-                halign: 'left',
-            },
-            margin: {
-                top: 180,
-            },
-        });
-    }
+   ExportPDF() {
+    console.log("kkkkkkkkkkkkk",this.countusers);
+    let doc = new jsPDF.default('l', 'pt');
+    var img = new Image();
+    img.src = 'assets/images/HR1.png';  
+    doc.addImage(img, 'png', 100, 20, 100, 100);
+    doc.setTextColor(0, 0, 139);
+    var date = formatDate(new Date(), 'yyyy/MM/dd hh:mm a', 'en');
+    doc.text(600, 70, 'HR.TN');
+    doc.text(600, 90, ' ' + date);
+    doc.text(600, 110, 'Total des Utilisateurs est ' + this.countusers);
+    doc.text(110, 110, 'HR.TN');
+    doc.setTextColor(255, 0, 0);
+    doc.text(320, 130, 'Liste des Utilisateurs\n');
+    doc.autoTable(this.exportColumns, this.users, {
+        theme: 'grid',
+        styles: {
+            halign: 'left',
+        },
+        margin: {
+            top: 180,
+        },
+    });
+    doc.setTextColor(0, 0, 0);
+    doc.save('Utilisateurs_' + new Date().getTime() + '.pdf');
+}
+
+
+
+
+
 
     deleteSelectedUsers() {
         this.confirmationService.confirm({
