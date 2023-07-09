@@ -59,6 +59,11 @@ export class CongeService {
         return this.http.delete<void>(`${this.apiUrl}${id}`);
     }
 
+   
+    getCongeCount(): Observable<any> {
+        return this.http.get(`${this.apiUrl}count`);
+    }
+
     accepterConge(id: number): Observable<any> {
         return this.http.post(`${this.apiUrl}${id}/accepter`, '');
     }

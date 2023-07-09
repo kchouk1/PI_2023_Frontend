@@ -23,20 +23,25 @@ export class DashboardComponent implements OnInit {
     config!: AppConfig;
     employees: User[] = [];
     countusers: number=0;
+    countconge: number=0;
 
     constructor(private messageService: MessageService, private configService: AppConfigService,  private userService: UserService , private CongeService: CongeService) {}
 
     ngOnInit() {
+        this.CongeService.getCongeCount().subscribe((l) => {
+            this.countconge = l;
+            
+        
         this.userService.getUserCount().subscribe((r) => {
             this.countusers = r;
-
-            this.CongeService.getAllConges();
+            console.log("ejndjeneji",this.countconge);
+          //  console.log("kkk",this.CongeService.getCongeCount((l) => { this.countusers = l}).subscribe());
         
         this.data = {
-            labels: ['A','B','Users'],
+            labels: ['A','Conge','Users'],
             datasets: [
                 {
-                    data: [3, 8,this.countusers],
+                    data: [3, this.countconge,this.countusers],
                     backgroundColor: [
                         "#42A5F5",
                         "#66BB6A",
@@ -52,6 +57,7 @@ export class DashboardComponent implements OnInit {
         };
 
         });
+    });
         
         this.basicData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
