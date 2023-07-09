@@ -82,12 +82,6 @@ export class CongeComponent implements OnInit {
         
         this.conge = new Conge();
         this.conge.soldeConge = this.soldeConge;
-        
-        // this.conge.dateDebut=this.forum.dateDebut;
-        // this.conge.dateFin=this.forum.dateFin;
-      //  this.conge.duree=this.dureeConge;
-  
-
         this.loading = false;
         this.congeDialog = true;
     }
@@ -160,6 +154,7 @@ export class CongeComponent implements OnInit {
         console.log('TestTesttesTest', this.conge.duree);
         //.catch(error => console.error(error));
     }
+ 
     saveConge() {
         const diffInMs = new Date(this.conge.dateFin).getTime() - new Date(this.conge.dateDebut).getTime();
 

@@ -5,6 +5,8 @@ import { User } from 'src/app/_models/user';
 import { AuthService } from 'src/app/_services/auth.service';
 import { UserService } from 'src/app/_services/users.service';
 import { formatDate } from '@angular/common';
+import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
 //import jsPDF from 'jspdf';
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -45,10 +47,10 @@ export class UtilisateursComponent implements OnInit {
            
         });
         this.cols = [
-            { field: 'username', header: 'Username', customExportHeader: 'username' },    
+            { field: 'username', header: 'User Name', customExportHeader: 'username' },    
             { field: 'email', header: 'Email' },
-            { field: 'firstName', header: 'FirstName' },
-            { field: 'lastName', header: 'LastName' },
+            { field: 'firstName', header: 'First Name' },
+            { field: 'lastName', header: 'Last Name' },
             { field: 'phoneNumber', header: 'Phone Number' },
 
         
@@ -107,7 +109,35 @@ export class UtilisateursComponent implements OnInit {
 }
 
 
+exportexcell(exportColumns: any) {
+    const replacer = (key: any, value: null) =>
+        value === null ? '' : value; 
+    const header = Object.keys(exportColumns[0]);
+    let csv = exportColumns.map((row: { [x: string]: any }) =>
+        header
+            .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+            .join(',')
+    );
+    csv.unshift(header.join(','));
+    let csvArray = csv.join('\r\n');
+    var blob = new Blob([csvArray], { type: 'text/csv' });
+    saveAs(blob, 'Utilisateurs_' + new Date().getTime() + '.csv');
+}
 
+
+
+savecsv(buffer: any, fileName: string): void {
+    let EXCEL_TYPE =
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE,
+    });
+    FileSaver.saveAs(
+        data,
+        fileName + '_' + new Date().getTime() + EXCEL_EXTENSION
+    );
+}
 
 
 

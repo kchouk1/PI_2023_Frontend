@@ -21,6 +21,8 @@
                 [disabled]="!selectedUsers || !selectedUsers.length"
             ></button>
             <button type="button" pButton pRipple icon="pi pi-file-pdf"   (click)="ExportPDF()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf"   (click)="exportcsv(users)" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+        
         </ng-template>
     
 
