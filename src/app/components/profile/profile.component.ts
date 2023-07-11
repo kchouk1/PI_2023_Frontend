@@ -15,6 +15,7 @@ import { UserService } from 'src/app/_services/users.service';
 })
 export class ProfileComponent implements OnInit {
     user: User = new User();
+    password: string = "";
     isAdmin: boolean = false;
     soldeConge: number = 0;
     dialog: boolean = false;
@@ -53,26 +54,39 @@ export class ProfileComponent implements OnInit {
                 });
             this.congeService.getSoldeConge(this.user.id!).subscribe({
                 next: (r) => {
-                    
                     console.log(r);
                     this.soldeConge = r;
                 },
             });
             this.congeService.getUserSoldeConge(this.user.id!).subscribe({
-            next: (r) => {
-                this.soldeConge = r;
-            },
+                next: (r) => {
+                    this.soldeConge = r;
+                },
+            });
         });
-        });
-        
-    
     }
 
     saveUser() {
         if (this.user.id) {
             this.userService.updateUser(this.user).subscribe((r) => {
-                console.log(r);
+                console.log(r.password);
             });
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Modification enregistrée',
+                life: 3000,
+            });
+        }
+    }
+
+    saveUserPassword() {
+        if (this.user.id) {
+            this.userService
+                .updateUserPassword(this.user, this.password)
+                .subscribe((r) => {
+                    console.log(r.password);
+                });
             this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',

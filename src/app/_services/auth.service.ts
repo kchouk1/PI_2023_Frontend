@@ -17,6 +17,7 @@ export class AuthService {
 
     signin(data: any) {
         {
+            console.log('user signin ', data);
             return this.http.post(this.endpoint + 'signin', data);
         }
     }

@@ -20,7 +20,16 @@ export class UserService {
     }
 
     updateUser(user: User): Observable<User> {
+        console.log('password in service ' + user.password);
         return this.http.put<User>(`${this.apiUrl}updateUser/${user.id}`, user);
+    }
+
+    updateUserPassword(user: User, password: string): Observable<User> {
+        console.log('password in service ' + user.password);
+        return this.http.put<User>(
+            `${this.apiUrl}updateUserPassword/${user.id}`,
+            password
+        );
     }
 
     getAllusers(): Observable<any> {

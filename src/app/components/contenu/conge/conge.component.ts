@@ -30,11 +30,11 @@ export class CongeComponent implements OnInit {
     user: User = new User();
     soldeConge: number = 0;
     dureeConge: number = 0;
-    caluleeeer : number=1000 * 60 * 60 * 24;
-    forum:any={
-        dateDebut:Date,
-        dateFin:Date,
-    }
+    caluleeeer: number = 1000 * 60 * 60 * 24;
+    forum: any = {
+        dateDebut: Date,
+        dateFin: Date,
+    };
 
     @ViewChild('dt') dt: Table | undefined;
 
@@ -49,8 +49,8 @@ export class CongeComponent implements OnInit {
 
     ngOnInit(): void {
         this.isAdmin = this.authService.isAdmin();
-       
-        console.log("jjj",this.dureeConge)
+
+        console.log('jjj', this.dureeConge);
         this.getAll();
         this.userService.getCurrentUser().subscribe((r) => {
             this.user = r;
@@ -79,7 +79,6 @@ export class CongeComponent implements OnInit {
     }
 
     openNew() {
-        
         this.conge = new Conge();
         this.conge.soldeConge = this.soldeConge;
         this.loading = false;
@@ -111,8 +110,10 @@ export class CongeComponent implements OnInit {
     }
 
     editConge(conge: Conge) {
-        const diffInMs = new Date(this.conge.dateFin).getTime() - new Date(this.conge.dateDebut).getTime();
-        
+        const diffInMs =
+            new Date(this.conge.dateFin).getTime() -
+            new Date(this.conge.dateDebut).getTime();
+
         this.conge.soldeConge = this.soldeConge;
         this.conge = { ...conge };
         this.congeDialog = true;
@@ -144,24 +145,26 @@ export class CongeComponent implements OnInit {
         this.congeDialog = false;
         this.loading = false;
     }
-    calculerDuree() {
-        const congeId = 1; // Remplacez 1 par l'ID du congé que vous souhaitez calculer
-        this.congeService
-            .calculerDureeConge(21)
+    // calculerDuree() {
+    //     const congeId = 1; // Remplacez 1 par l'ID du congé que vous souhaitez calculer
+    //     this.congeService
+    //          .calculerDureeConge(21)
 
-            .then((duree) => (this.dureeConge = duree));
+    //         .then((duree) => (this.dureeConge = duree));
 
-        console.log('TestTesttesTest', this.conge.duree);
-        //.catch(error => console.error(error));
-    }
- 
+    //    console.log('TestTesttesTest', this.conge.duree);
+    //.catch(error => console.error(error));
+    //}
+
     saveConge() {
-        const diffInMs = new Date(this.conge.dateFin).getTime() - new Date(this.conge.dateDebut).getTime();
+        const diffInMs =
+            new Date(this.conge.dateFin).getTime() -
+            new Date(this.conge.dateDebut).getTime();
 
         const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-         this.conge.duree = diffInDays;
-         console.log(diffInDays)
-         this.conge.duree=diffInDays;
+        this.conge.duree = diffInDays;
+        console.log(diffInDays);
+        this.conge.duree = diffInDays;
         this.conge.dateDebut = this.datePipe.transform(
             this.conge.dateDebut,
             'yyyy-MM-dd'
@@ -171,12 +174,12 @@ export class CongeComponent implements OnInit {
             'yyyy-MM-dd'
         );
         this.conge.soldeConge = this.soldeConge;
-        
+
         this.loading = true;
         if (this.conge.id) {
             this.congeService.updateConge(this.conge).subscribe({
                 next: (r) => {
-                    console.log("jjjjjj",this.dureeConge);
+                    console.log('jjjjjj', this.dureeConge);
                     this.conges[this.findIndexById(r.id!)] = r;
                     this.messageService.add({
                         severity: 'success',
@@ -199,10 +202,11 @@ export class CongeComponent implements OnInit {
             });
         } else {
             this.congeService.addConge(this.conge).subscribe({
-           
                 next: (r) => {
-                    this.conge.duree=((this.conge.dateFin-this.conge.dateDebut/(1000 * 60 * 60 * 24)));    /// 
-                    console.log("uuuuuuu",this.conge.duree);
+                 //   this.conge.duree =
+                  //      this.conge.dateFin -
+                   //     this.conge.dateDebut / (1000 * 60 * 60 * 24); ///
+                    console.log('uuuuuuu', this.conge.duree);
                     this.conges.push(r);
                     this.messageService.add({
                         severity: 'success',

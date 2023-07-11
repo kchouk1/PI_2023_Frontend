@@ -40,11 +40,10 @@ export class UtilisateursComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+     //   this.loadData();
         this.isAdmin = this.authService.isAdmin();
         this.getAll();
-        this.userService.getUserCount().subscribe((r: number) => {
-            this.countusers = r;
-        });
+      
         this.cols = [
             {
                 field: 'username',
@@ -82,7 +81,22 @@ export class UtilisateursComponent implements OnInit {
         this.userDialog = true;
     }
 
+    loadData() {
+        this.userService.getAllusers().subscribe({
+            next: (res) => {
+                this.users = res.data;
+            },
+            error: (err) => {
+                console.error(err);
+            },
+        });
+    }
+
     ExportPDF() {
+        this.userService.getUserCount().subscribe((r: number) => {
+            this.countusers = r;
+        });
+       // this.loadData();
         console.log('kkkkkkkkkkkkk', this.countusers);
         let doc = new jsPDF.default('l', 'pt');
         var img = new Image();
@@ -95,7 +109,7 @@ export class UtilisateursComponent implements OnInit {
         doc.text(600, 110, 'Total des Utilisateurs est ' + this.countusers);
         doc.text(110, 110, 'HR.TN');
         doc.setTextColor(255, 0, 0);
-        doc.text(320, 130, 'Liste des Utilisateurs\n');
+        doc.text(320, 130, 'Liste des Utilisateurs\n').setFont(undefined, 'bold');
         doc.autoTable(this.exportColumns, this.users, {
             theme: 'grid',
             styles: {
