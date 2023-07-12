@@ -20,7 +20,6 @@ import { LoginModule } from './components/login/login.module';
 import { RegisterModule } from './components/register/register.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { UtilisateursModule } from './components/contenu/utilisateurs/utilisateurs.module';
 import { JwtInterceptor } from './_helpers/interceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -55,7 +54,6 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
         RegisterModule,
         HttpClientModule,
         BrowserModule,
-        UtilisateursModule,
         ChartModule,
         FullCalendarModule,
         ButtonModule,

@@ -152,23 +152,7 @@
     styleClass="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label for="duree">Durée</label>
-            <p-inputNumber
-                [(ngModel)]="conge.duree"
-                [showButtons]="true"
-                buttonLayout="horizontal"
-                decrementButtonClass="p-button-danger"
-                incrementButtonClass="p-button-success"
-                incrementButtonIcon="pi pi-plus"
-                decrementButtonIcon="pi pi-minus"
-                [min]="1"
-            ></p-inputNumber>
-            <small class="p-error" *ngIf="!conge.duree"
-                >Duree is required.</small
-            >
-        </div>
-
+     
         <div class="field">
             <label for="soldeConge">Solde de congé</label>
             <input

@@ -1,10 +1,8 @@
-import { Project } from "./project";
-
 export class Task {
     id?: number;
-    taskName?: "string";
-    taskStatus?: "string"; 
+    taskName?:"string";
+    taskStatus : 'TODO' | 'Pending' | 'Done'|undefined | string;
     startDate?: Date;
-    deadline?: Date;   
+    deadline?: Date;
     project?:number;
 }

@@ -13,7 +13,7 @@ export class TaskService {
       }
     
       getTaskById(id: number): Observable<Task> {
-        return this.http.get<Task>(`${this.apiUrl}/${id}`);
+        return this.http.get<Task>(`http://localhost:8081/GestionDesAbsences/tasks/${id}`);
       }
     
       getAllTasks(): Observable<Task[]> {
@@ -21,7 +21,13 @@ export class TaskService {
       }
     
       updateTask(id: number, task: Task): Observable<Task> {
-        return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
+        return this.http.put<Task>(`http://localhost:8081/GestionDesAbsences/tasks/${id}`, task);
+      }
+      updateTaskStatus(id:number):Observable<Task>{
+        return this.http.get<Task>(`http://localhost:8081/GestionDesAbsences/tasks/Status/${id}`)
+      }
+      updateTaskStatusToTimeOut(id:number):Observable<Task>{
+        return this.http.get<Task>(`http://localhost:8081/GestionDesAbsences/tasks/Status/TimeOut/${id}`)
       }
     
       deleteTask(id: number): Observable<void> {

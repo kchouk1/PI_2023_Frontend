@@ -42,7 +42,7 @@ export class CongeService {
     }
 
     calculerDureeConge(id: number): Promise<number> {
-        const apiUrl = `${this.apiUrl}${id}/duree`; // Make sure this.apiUrl is correctly set
+        const apiUrl = `${this.apiUrl}${id}/duree`; 
 
         return this.http
             .get<number | undefined>(apiUrl)
