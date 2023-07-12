@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import { AppConfigService } from 'src/app/_services/AppConfigService';
 import { CongeService } from 'src/app/_services/conge.service';
+import { TaskService } from 'src/app/_services/task.service';
 import { UserService } from 'src/app/_services/users.service';
 import { AppConfig } from 'src/app/layout/service/app.layout.service';
 
@@ -24,10 +25,18 @@ export class DashboardComponent implements OnInit {
     employees: User[] = [];
     countusers: number=0;
     countconge: number=0;
+    countTask: number=0;
 
-    constructor(private messageService: MessageService, private configService: AppConfigService,  private userService: UserService , private CongeService: CongeService) {}
+
+
+    constructor(private messageService: MessageService, private configService: AppConfigService,  private userService: UserService , private CongeService: CongeService , private taskService: TaskService) {}
 
     ngOnInit() {
+
+        this.taskService.getTaskCount().subscribe((t) => {
+            this.countTask = t;
+
+
         this.CongeService.getCongeCount().subscribe((l) => {
             this.countconge = l;
             
@@ -36,10 +45,10 @@ export class DashboardComponent implements OnInit {
             this.countusers = r;
             console.log("ejndjeneji",this.countconge);
             this.data = {
-            labels: ['A','Conge','Users'],
+            labels: ['Task','Conge','Users'],
             datasets: [
                 {
-                    data: [3, this.countconge,this.countusers],
+                    data: [this.countTask, this.countconge,this.countusers],
                     backgroundColor: [
                         "#42A5F5",
                         "#66BB6A",
@@ -56,5 +65,6 @@ export class DashboardComponent implements OnInit {
 
         });
     });
+});
         
 }}

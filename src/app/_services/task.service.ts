@@ -19,6 +19,10 @@ export class TaskService {
       getAllTasks(): Observable<Task[]> {
         return this.http.get<Task[]>(this.apiUrl);
       }
+
+      getTaskCount(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/counts`);
+    }
     
       updateTask(id: number, task: Task): Observable<Task> {
         return this.http.put<Task>(`http://localhost:8081/GestionDesAbsences/tasks/${id}`, task);
