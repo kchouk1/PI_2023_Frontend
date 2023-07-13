@@ -20,21 +20,20 @@
                 (click)="deleteSelectedUsers()"
                 [disabled]="!selectedUsers || !selectedUsers.length"
             ></button>
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"   (click)="ExportPDF()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-            <button type="button" pButton pRipple icon="pi pi-file-pdf"   (click)="exportexcell(users)" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-        
+            
         </ng-template>
     
 
-        <!-- <ng-template pTemplate="right">
+         <ng-template pTemplate="right">
             <button
                 pButton
                 pRipple
-                label="Export"
-                icon="pi pi-upload"
+                label="Export PDF"
+                icon="pi pi-export"
                 class="p-button-help"
+                (click)="ExportPDF()"
             ></button>
-        </ng-template> -->
+        </ng-template> 
     </p-toolbar>
 
     <p-table
