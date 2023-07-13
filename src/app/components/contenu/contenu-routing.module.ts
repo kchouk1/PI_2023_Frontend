@@ -15,6 +15,8 @@ import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { AbsenceComponent } from './absence/absence.component';
 import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
 import { PostComponent } from './post/post.component';
+import { ChatComponent } from './chat/chat.component';
+import { ListChatComponent } from './list-chat/list-chat.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -90,6 +92,16 @@ const routes: Routes = [
     {
         path: 'post',
         component: PostComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'chat',
+        component: ChatComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'listchat',
+        component: ListChatComponent,
         canActivate: [AuthGuard],
     },
 ];

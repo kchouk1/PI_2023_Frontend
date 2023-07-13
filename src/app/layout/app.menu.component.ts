@@ -71,6 +71,16 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-users',
                         routerLink: ['/contenu/post'],
                     },
+                    {
+                        label: 'chat',
+                        icon: 'pi pi-users',
+                        routerLink: ['/contenu/chat'],
+                    },
+                    { 
+                        label: 'listchat',
+                        icon: 'pi pi-users',
+                        routerLink: ['/contenu/listchat'],
+                    },
                 ],
             },
             {

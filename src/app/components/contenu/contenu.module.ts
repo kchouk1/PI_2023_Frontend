@@ -39,6 +39,8 @@ import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
 import { PostComponent } from './post/post.component';
+import { ChatComponent } from './chat/chat.component';
+import { ListChatComponent } from './list-chat/list-chat.component';
 
 
 @NgModule({
@@ -58,6 +60,8 @@ import { PostComponent } from './post/post.component';
         MeetComponent,
         TaskByProjectComponent,
         PostComponent,
+        ChatComponent,
+        ListChatComponent,
    
     ],
     imports: [
