@@ -221,7 +221,7 @@ export class UtilisateursComponent implements OnInit {
             this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',
-                detail: 'Congé Updated',
+                detail: 'User Updated',
                 life: 3000,
             });
         } else {
@@ -230,7 +230,7 @@ export class UtilisateursComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'Congé Created',
+                    detail: 'User Created',
                     life: 3000,
                 });
                 ('');

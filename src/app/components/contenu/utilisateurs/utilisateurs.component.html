@@ -187,20 +187,7 @@
             />
         </div>
 
-        <div class="field">
-            <label for="formations">Formations</label>
-            <p-dropdown
-                [(ngModel)]="user.formations"
-                inputId="inventoryStatus"
-                placeholder="Select"
-            >
-                <ng-template let-option pTemplate="item">
-                    <span [class]="'user-badge status-' + option.value">{{
-                        option.label
-                    }}</span>
-                </ng-template>
-            </p-dropdown>
-        </div>
+ 
     </ng-template>
 
     <ng-template pTemplate="footer">

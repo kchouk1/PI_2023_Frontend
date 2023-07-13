@@ -233,12 +233,6 @@ export class CongeComponent implements OnInit {
         } else {
             this.congeService.addConge(this.conge).subscribe({
                 next: (r) => {
-                 //   if(  this.getRole() == this.Role_Admin){
-                //    }
-                 //   else{
-                       
-
-                   // }
                     this.conges.push(r);
                     this.messageService.add({
                         severity: 'success',
