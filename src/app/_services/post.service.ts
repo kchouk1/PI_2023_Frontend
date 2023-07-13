@@ -39,4 +39,7 @@ export class PostService {
       dislikePost(id:number,postId:number,userId:number) : Observable<ReactPost[]>{
         return this.http.get<ReactPost[]>(`http://localhost:8081/GestionDesAbsences/react-posts/dislike/${id}/${postId}/${userId}`)
       }
+      getAllReactPost():Observable<any>{
+        return this.http.get('http://localhost:8081/GestionDesAbsences/react-posts');
+      }
     }

@@ -87,12 +87,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-conge>
             <tr>
-                <td >
+                <td>
                     <p-tableCheckbox [value]="conge"></p-tableCheckbox>
                 </td>
-                <td >
-                    {{ conge.user?.firstName }} {{ conge.user?.lastName }}
-                </td>
+                <td>{{ conge.user?.firstName }} {{ conge.user?.lastName }}</td>
                 <td>{{ conge.duree }}</td>
                 <td>{{ conge.soldeConge }}</td>
                 <td>{{ conge.dateDebut }}</td>
@@ -153,37 +151,17 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="duree">Durée</label>
-            <p-inputNumber
-                [(ngModel)]="conge.duree"
-                [showButtons]="true"
-                buttonLayout="horizontal"
-                decrementButtonClass="p-button-danger"
-                incrementButtonClass="p-button-success"
-                incrementButtonIcon="pi pi-plus"
-                decrementButtonIcon="pi pi-minus"
-                [min]="1"
-            ></p-inputNumber>
-            <small class="p-error" *ngIf="!conge.duree"
-                >Duree is required.</small
-            >
+            <label for="dateFin">Employé</label>
+            <p-dropdown
+                [options]="users"
+                [(ngModel)]="conge.user"
+                optionLabel="username"
+                appendTo="body"
+                (onChange)="setSoldeConge()"
+                placeholder="Sélectionnez un employé"
+            ></p-dropdown>
         </div>
 
-        <div class="field">
-            <label for="soldeConge">Solde de congé</label>
-            <input
-                type="text"
-                pInputText
-                id="soldeConge"   
-                [(ngModel)]="conge.soldeConge"
-                   
-                required
-                autofocus
-            />
-            <small class="p-error" *ngIf="!conge.soldeConge"
-                >Solde de congé is required.</small
-            >
-        </div>
         <div class="field">
             <label for="dateDebut"> Date Début</label>
             <p-calendar
@@ -192,6 +170,7 @@
                 [firstDayOfWeek]="1"
                 [showIcon]="true"
                 appendTo="body"
+                [minDate]="today"
             ></p-calendar>
             <small class="p-error" *ngIf="!conge.dateDebut"
                 >Date Début is required.</small
@@ -206,20 +185,26 @@
                 [firstDayOfWeek]="1"
                 [showIcon]="true"
                 appendTo="body"
+                [minDate]="conge.dateDebut"
             ></p-calendar>
             <small class="p-error" *ngIf="!conge.dateFin"
                 >Date Fin is required.</small
             >
         </div>
 
-        <div class="field" >
-            <label for="dateFin">Employé</label>
-            <p-dropdown
-                [options]="users"
-                [(ngModel)]="conge.user"
-                optionLabel="username"
-                appendTo="body"
-            ></p-dropdown>
+        <div class="field">
+            <label for="soldeConge">Solde de congé</label>
+            <input
+                type="text"
+                pInputText
+                id="soldeConge"
+                [(ngModel)]="conge.soldeConge"
+                required
+                autofocus
+            />
+            <small class="p-error" *ngIf="!conge.soldeConge"
+                >Solde de congé is required.</small
+            >
         </div>
     </ng-template>
 

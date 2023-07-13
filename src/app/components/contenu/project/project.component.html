@@ -36,7 +36,7 @@
         [value]="projects"
         [rows]="10"
         [paginator]="true"
-        [globalFilterFields]="['projectName', 'projectStatus']"
+        [globalFilterFields]="['projectName']"
         responsiveLayout="scroll"
         [(selection)]="selectedProjects"
         [rowHover]="true"
@@ -66,10 +66,7 @@
                 <th pSortableColumn="projectName">
                     projectName <p-sortIcon field="projectName"></p-sortIcon>
                 </th>
-                <th pSortableColumn="projectStatus">
-                    projectStatus
-                    <p-sortIcon field="projectStatus"></p-sortIcon>
-                </th>
+                
 
                 <th></th>
             </tr>
@@ -80,7 +77,7 @@
                     <p-tableCheckbox [value]="project"></p-tableCheckbox>
                 </td>
                 <td>{{ project.projectName }}</td>
-                <td>{{ project.projectStatus }}</td>
+                
 
                 <td>
                     <button
@@ -140,20 +137,7 @@
             >
         </div>
 
-        <div class="field">
-            <label for="status">Status</label>
-            <input
-                type="text"
-                pInputText
-                id="status"
-                [(ngModel)]="project.projectStatus"
-                required
-                autofocus
-            />
-            <small class="p-error" *ngIf="!project.projectStatus"
-                >Status is required.</small
-            >
-        </div>
+        
 
         <!-- ...remaining code... -->
     </ng-template>

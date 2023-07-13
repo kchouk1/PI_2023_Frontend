@@ -35,10 +35,10 @@ export class CongeComponent implements OnInit {
         dateDebut: Date,
         dateFin: Date,
     };
-    Role_Admin:string='ROLE_ADMIN';
-    testRole : string='';
-    kchouk:any;
-
+    Role_Admin: string = 'ROLE_ADMIN';
+    testRole: string = '';
+    kchouk: any;
+    today: Date = new Date();
 
     @ViewChild('dt') dt: Table | undefined;
 
@@ -51,55 +51,48 @@ export class CongeComponent implements OnInit {
         private authService: AuthService
     ) {}
 
-
     public getRole() {
         return localStorage.getItem('role');
     }
     ngOnInit(): void {
-
-     
-
         const userRole = this.getRole();
         this.isAdmin = this.authService.isAdmin();
         this.getAll();
         this.userService.getCurrentUser().subscribe((r) => {
-            
             this.user = r;
             this.congeService.getUserSoldeConge(this.user.id!).subscribe({
                 next: (r) => {
-                    console.log("testttt",this.user.id)
+                    console.log('testttt', this.user.id);
                     this.soldeConge = r;
                 },
             });
         });
     }
     getAll() {
-        console.log('testtest',this.getRole())
-        
-        if(  this.getRole() == this.Role_Admin){
-           this.userService.getAllusers().subscribe((r) => {
-            this.users = r;
-        })
-        this.congeService.getAllConges().subscribe(
-            (r) => {
-                this.conges = r;
-                console.table(this.conges);
-                this.loading = false;
-            },
-            (e) => {
-                console.table(e);
-            }
-        ); 
-        }else{
+        console.log('testtest', this.getRole());
+
+        if (this.getRole() == this.Role_Admin) {
+            this.userService.getAllusers().subscribe((r) => {
+                this.users = r;
+            });
+            this.congeService.getAllConges().subscribe(
+                (r) => {
+                    this.conges = r;
+                    console.table(this.conges);
+                    this.loading = false;
+                },
+                (e) => {
+                    console.table(e);
+                }
+            );
+        } else {
             this.userService.getCurrentUser().subscribe((r) => {
                 this.user = r;
-                this.userService.getUserById(this.user.id!).subscribe((r)=>{
-                this.users[0]=r;
-            })
-            })
-            
+                this.userService.getUserById(this.user.id!).subscribe((r) => {
+                    this.users[0] = r;
+                });
+            });
 
-            
             this.userService.getCurrentUser().subscribe((r) => {
                 this.user = r;
                 this.congeService.getCongeByUserId(this.user.id!).subscribe(
@@ -111,16 +104,24 @@ export class CongeComponent implements OnInit {
                     (e) => {
                         console.table(e);
                     }
-                )
-            })
-            
+                );
+            });
         }
-        
+    }
+
+    setSoldeConge() {
+        this.congeService.getUserSoldeConge(this.conge.user.id!).subscribe({
+            next: (res) => {
+                this.conge.soldeConge = res;
+            },
+        });
     }
 
     openNew() {
         this.conge = new Conge();
-        this.conge.soldeConge = this.soldeConge;
+        if (!this.isAdmin) {
+            this.conge.soldeConge = this.soldeConge;
+        }
         this.loading = false;
         this.congeDialog = true;
     }
@@ -247,7 +248,7 @@ export class CongeComponent implements OnInit {
                         this.messageService.add({
                             severity: 'error',
                             summary: 'Erreur',
-                            detail: 'Date de congé déjà utilisée',
+                            detail: 'congé Invalide',
                             life: 3000,
                         });
                     }

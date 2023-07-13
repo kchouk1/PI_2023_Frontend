@@ -135,7 +135,7 @@
 
   <p-dialog [(visible)]="taskDialog" [style]="{ width: '450px' }" header="Task Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <div class="field">
+      <!-- <div class="field">
         <label for="projectId">Project ID</label>
         <input
           type="text"
@@ -146,7 +146,16 @@
          
         />
         <small class="p-error" *ngIf="!projectId">Project ID is required.</small>
-      </div>
+      </div> -->
+      <div class="field" >
+        <label for="projectId">projectId</label>
+        <p-dropdown
+            [options]="projectsId"
+            [(ngModel)]="projectId"
+            
+            appendTo="body"
+        ></p-dropdown>
+    </div> 
       <div class="field">
         <label for="taskName">Name</label>
         <input
@@ -161,24 +170,26 @@
       </div>
       <div class="field">
         <label for="startDate">Start Date</label>
-        <input
-          type="date"
-          pInputText
-          id="startDate"
-          [(ngModel)]="task.startDate"
-          required
-        />
+        <p-calendar
+        [(ngModel)]="task.startDate"
+        [disabledDays]="[0, 6]"
+        [firstDayOfWeek]="1"
+        [showIcon]="true"
+        appendTo="body"
+        [minDate]="today"
+    ></p-calendar>
         <small class="p-error" *ngIf="!task.startDate">Start Date is required.</small>
       </div>
       <div class="field">
         <label for="deadline">Deadline</label>
-        <input
-          type="date"
-          pInputText
-          id="deadline"
-          [(ngModel)]="task.deadline"
-          required
-        />
+        <p-calendar
+        [(ngModel)]="task.deadline"
+        [disabledDays]="[0, 6]"
+        [firstDayOfWeek]="1"
+        [showIcon]="true"
+        appendTo="body"
+        [minDate]="task.startDate!"
+    ></p-calendar>
         <small class="p-error" *ngIf="!task.deadline">Deadline is required.</small>
       </div>
     </ng-template>

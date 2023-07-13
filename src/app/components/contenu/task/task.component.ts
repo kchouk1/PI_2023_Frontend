@@ -6,6 +6,7 @@ import { Task } from 'src/app/_models/task';
 import { Table } from 'primeng/table';
 import { TaskService } from 'src/app/_services/task.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { ProjectService } from 'src/app/_services/project.service';
 
 @Component({
   selector: 'app-task',
@@ -26,18 +27,30 @@ export class TaskComponent implements OnInit {
   isAdmin: boolean = false;
   @ViewChild('dt') dataTable: Table | undefined;
   filteredTasks: Task[] = [];
-
+  projects:any;
+  projectsId:any[]=[];
+  today: Date = new Date();
   constructor(
     private taskService: TaskService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private authService:AuthService,
+    private projectService:ProjectService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
     this.getAll();
+    this.projectService.getAllProjects().subscribe((r)=>{
+      this.projects=r;
+      
+      for(let i = 0;i<this.projects.length;i++){
+        console.log('znfeiunfiezfnelfk,ezf,lez',this.projects[i].id)
+        this.projectsId[i]=this.projects[i].id;
+      }
+      console.log('aaaaaaaaaaaaaaaa',this.projectsId)
+    })
   }
 
   getAll() {
