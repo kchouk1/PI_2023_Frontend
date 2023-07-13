@@ -53,4 +53,13 @@ export class UserService {
     unblockUser(userId: number): Observable<User> {
         return this.http.put<User>(`${this.apiUrl}${userId}/unblock`, null);
     }
+    getUserById(userId:number):Observable<User>{
+        return this.http.get<User>(`${this.apiUrl}conge/user/${userId}`)
+    }
+    countAdmin():Observable<any>{
+        return this.http.get(`${this.apiUrl}count/admin`);
+    }
+    countUser():Observable<any>{
+        return this.http.get(`${this.apiUrl}count/user`);
+    }
 }

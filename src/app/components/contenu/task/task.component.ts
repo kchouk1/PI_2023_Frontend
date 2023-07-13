@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Task } from 'src/app/_models/task';
 import { Table } from 'primeng/table';
 import { TaskService } from 'src/app/_services/task.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-task',
@@ -22,6 +23,7 @@ export class TaskComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
   projectId: any;
   showAlertDialog: boolean = false;
+  isAdmin: boolean = false;
   @ViewChild('dt') dataTable: Table | undefined;
   filteredTasks: Task[] = [];
 
@@ -29,10 +31,12 @@ export class TaskComponent implements OnInit {
     private taskService: TaskService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private authService:AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
     this.getAll();
   }
 

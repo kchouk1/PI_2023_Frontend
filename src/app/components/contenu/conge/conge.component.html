@@ -87,10 +87,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-conge>
             <tr>
-                <td *ngIf="isAdmin">
+                <td >
                     <p-tableCheckbox [value]="conge"></p-tableCheckbox>
                 </td>
-                <td *ngIf="isAdmin">
+                <td >
                     {{ conge.user?.firstName }} {{ conge.user?.lastName }}
                 </td>
                 <td>{{ conge.duree }}</td>
@@ -152,7 +152,23 @@
     styleClass="p-fluid"
 >
     <ng-template pTemplate="content">
-     
+        <div class="field">
+            <label for="duree">Durée</label>
+            <p-inputNumber
+                [(ngModel)]="conge.duree"
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                decrementButtonClass="p-button-danger"
+                incrementButtonClass="p-button-success"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                [min]="1"
+            ></p-inputNumber>
+            <small class="p-error" *ngIf="!conge.duree"
+                >Duree is required.</small
+            >
+        </div>
+
         <div class="field">
             <label for="soldeConge">Solde de congé</label>
             <input
@@ -196,7 +212,7 @@
             >
         </div>
 
-        <div class="field" *ngIf="isAdmin">
+        <div class="field" >
             <label for="dateFin">Employé</label>
             <p-dropdown
                 [options]="users"

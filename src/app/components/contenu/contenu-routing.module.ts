@@ -14,6 +14,7 @@ import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { AbsenceComponent } from './absence/absence.component';
 import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
+import { PostComponent } from './post/post.component';
 
 const routes: Routes = [
     { path: '', component: NotfoundComponent },
@@ -84,6 +85,11 @@ const routes: Routes = [
     {
         path: 'task/:projectId',
         component: TaskByProjectComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'post',
+        component: PostComponent,
         canActivate: [AuthGuard],
     },
 ];

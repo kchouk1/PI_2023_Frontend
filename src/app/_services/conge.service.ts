@@ -71,4 +71,7 @@ export class CongeService {
     refuserConge(id: number): Observable<any> {
         return this.http.post(`${this.apiUrl}${id}/refuser`, '');
     }
+    getCongeByUserId(userId:number):Observable<any>{
+        return this.http.get(`${this.apiUrl}test/${userId}`)
+    }
 }

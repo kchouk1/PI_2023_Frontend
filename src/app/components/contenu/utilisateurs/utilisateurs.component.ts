@@ -95,9 +95,8 @@ export class UtilisateursComponent implements OnInit {
     ExportPDF() {
         this.userService.getUserCount().subscribe((r: number) => {
             this.countusers = r;
-        });
-       // this.loadData();
-        console.log('kkkkkkkkkkkkk', this.countusers);
+       
+         this.loadData();
         let doc = new jsPDF.default('l', 'pt');
         var img = new Image();
         img.src = 'assets/images/HR1.png';
@@ -109,7 +108,9 @@ export class UtilisateursComponent implements OnInit {
         doc.text(600, 110, 'Total des Utilisateurs est ' + this.countusers);
         doc.text(110, 110, 'HR.TN');
         doc.setTextColor(255, 0, 0);
-        doc.text(320, 130, 'Liste des Utilisateurs\n').setFont(undefined, 'bold');
+        doc.setFontSize(20);
+        doc.setFont('bold');
+        doc.text(320, 130, 'Liste des Utilisateurs\n');
         doc.autoTable(this.exportColumns, this.users, {
             theme: 'grid',
             styles: {
@@ -121,7 +122,10 @@ export class UtilisateursComponent implements OnInit {
         });
         doc.setTextColor(0, 0, 0);
         doc.save('Utilisateurs_' + new Date().getTime() + '.pdf');
+    });
     }
+
+
 
     exportexcell(exportColumns: any) {
         const replacer = (key: any, value: null) =>

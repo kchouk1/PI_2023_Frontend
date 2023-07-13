@@ -41,5 +41,17 @@ export class TaskService {
       getAllTasksByProjectId(projectId: number): Observable<Task[]> {
         return this.http.get<Task[]>(`${this.apiUrl}/project/${projectId}`);
       }
+      getAllPendingTasks(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/count/pending`);
+      }
+      getAllDoneTasks(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/count/done`);
+      }
+      getAllTodoTasks(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/count/todo`);
+      }
+      getAllTimeOutTasks(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/count/timeout`);
+      }
     
     }

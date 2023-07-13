@@ -29,6 +29,7 @@
           icon="pi pi-plus"
           class="p-button-success mr-2"
           (click)="openNew()"
+          *ngIf="isAdmin"
         ></button>
         <button
           pButton
@@ -38,11 +39,12 @@
           class="p-button-danger"
           (click)="deleteSelectedTasks()"
           [disabled]="!selectedTasks || !selectedTasks.length"
+          *ngIf="isAdmin"
         ></button>
       </ng-template>
 
       <ng-template pTemplate="right">
-        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+       
       </ng-template>
     </p-toolbar>
 
@@ -110,6 +112,7 @@
               icon="pi pi-trash"
               class="p-button-rounded p-button-warning"
               (click)="deleteTask(task)"
+              *ngIf="isAdmin"
             ></button>
             <button style="margin-left: 3%;"
               pButton
@@ -117,6 +120,7 @@
               icon="pi pi-check"
               class="p-button-rounded p-button-secondary"
               (click)="editStatus(task)"
+              *ngIf="isAdmin"
             ></button>
           </td>
         </tr>

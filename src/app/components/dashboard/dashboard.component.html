@@ -1,7 +1,11 @@
-<h1>D'Ashbord</h1>
 
 
-<div class="statis" style="width: 20rem">
-    <p-chart type="pie" [data]="data" [options]="chartOptions"></p-chart>
-    <p-chart type="line" [data]="data" [options]="chartOptions"></p-chart>
+<h1>dashbord</h1>
+
+
+<div class="statis" style="width: 100%">
+    <tr><td><p-chart type="bar" [data]="data" [options]="chartOptions"></p-chart></td> 
+    <td><p-chart type="pie" [data]="data1" [options]="chartOptions" style="margin-left: 50%;"></p-chart></td>
+    </tr>
+    
 </div>

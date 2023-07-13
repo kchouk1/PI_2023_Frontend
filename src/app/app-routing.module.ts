@@ -24,6 +24,8 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
                             path: 'dashboard',
                             component: DashboardComponent,
                             canActivate: [AuthGuard],
+                            data: { role: 'ROLE_ADMIN' }
+
                         },
                         {
                             path: 'profile',

@@ -38,6 +38,7 @@ import { Formation } from 'src/app/_models/formation';
 import { JitsiComponent } from './formation/jitsi/jitsi.component';
 import { MeetComponent } from './formation/jitsi/meet/meet.component';
 import { TaskByProjectComponent } from './task-by-project/task-by-project.component';
+import { PostComponent } from './post/post.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { TaskByProjectComponent } from './task-by-project/task-by-project.compon
         JitsiComponent,
         MeetComponent,
         TaskByProjectComponent,
+        PostComponent,
    
     ],
     imports: [
