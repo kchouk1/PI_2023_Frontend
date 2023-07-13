@@ -33,7 +33,9 @@
                 class="p-button-help"
                 (click)="ExportPDF()"
             ></button>
+            
         </ng-template> 
+
     </p-toolbar>
 
     <p-table
@@ -55,9 +57,14 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input
+                    #globalSearch
                         pInputText
                         type="text"
-                        (input)="dt.filterGlobal($event.target, 'contains')"
+                        (input)=" dt.filterGlobal(
+                                        globalSearch.value,
+                                        'contains'
+                                    )
+                                "
                         placeholder="Rechercher..."
                     />
                 </span>

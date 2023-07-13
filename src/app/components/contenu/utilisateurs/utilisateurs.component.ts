@@ -94,7 +94,7 @@ export class UtilisateursComponent implements OnInit {
 
     ExportPDF() {
         this.userService.getUserCount().subscribe((r: number) => {
-            this.countusers = r;
+        this.countusers = r;
         let doc = new jsPDF.default('l', 'pt');
         var img = new Image();
         img.src = 'assets/images/HR1.png';
